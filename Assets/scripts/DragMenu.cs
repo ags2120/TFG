@@ -49,6 +49,7 @@ public class DragMenu : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
         {
             // Realiza una acción si la distancia movida es mayor que la distancia mínima
             UnityEngine.Debug.Log("Escondo menú.");
+            float posY = (float)Screen.height / 3;
             menuTransform.anchoredPosition = initialMenuPosition + new Vector2(0, -2000);
             desple.menuAbierto = true;
             
