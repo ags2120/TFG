@@ -11,6 +11,7 @@ public class DragMenu : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
     
     public Desplegable desple;
     public GameObject gameObj;
+    public GameObject flecha;
 
     void Start()
     {
@@ -21,10 +22,13 @@ public class DragMenu : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        
+            getTransform();
+            initialMousePosition = eventData.position;
+            initialMenuPosition = menuTransform.anchoredPosition;
+       
         //pointerOffset = eventData.position - (Vector2)menuTransform.position; // Calcular el desplazamiento desde el punto de inicio del arrastre hasta el centro del menú
-        getTransform();
-        initialMousePosition = eventData.position;
-        initialMenuPosition = menuTransform.anchoredPosition;
+        
         
     }
 
@@ -65,7 +69,7 @@ public class DragMenu : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
     }
     public void getTransform()
     {
-        menuTransform = transform.parent.parent.GetComponent<RectTransform>(); // Obtener el RectTransform del menú desplegable
+        menuTransform = transform.parent.GetComponent<RectTransform>(); // Obtener el RectTransform del menú desplegable
     }
     
 }
