@@ -34,10 +34,15 @@ public class DragMenu : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
 
     public void OnDrag(PointerEventData eventData)
     {
-        /*Vector2 pointerPosition = eventData.position;
-        menuTransform.position = pointerPosition - pointerOffset; // Actualizar la posición del menú según el movimiento del ratón o el dedo*/
+       
         float deltaY = eventData.position.y - initialMousePosition.y;
-        menuTransform.anchoredPosition = initialMenuPosition + new Vector2(0, deltaY);
+        if (deltaY < 0)                                                                         //Para que no se pueda subir el menú arriba
+        {
+            menuTransform.anchoredPosition = initialMenuPosition + new Vector2(0, deltaY);
+        }
+       
+        
+        
     }
     public void OnPointerUp(PointerEventData eventData)
     {
