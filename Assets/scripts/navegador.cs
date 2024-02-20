@@ -31,7 +31,7 @@ public class navegador : MonoBehaviour
         {
             flecha.SetActive(false);
         }
-        else if(currentPanel != Panel.panelMenuInicial)
+        else if(currentPanel != Panel.panelMenuInicial && flecha.activeSelf == false)
         {
             flecha.SetActive(true);
         }
