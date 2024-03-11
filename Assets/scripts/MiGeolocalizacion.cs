@@ -7,6 +7,7 @@ using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 using UnityEngine.EventSystems;
 using System.Collections;
+using System.IO;
 
 public class MiGeolocalizacion : MonoBehaviour
 {
@@ -16,11 +17,14 @@ public class MiGeolocalizacion : MonoBehaviour
     public Text InfoText;
     private IEnumerator _startLocationService = null;
     private bool _waitingForLocationService = false;
-    
+    public GeospatialPose pose;
+    private string latitud,longitud;
+
     void Start()
     {
+         
         
-        
+       
     }
     public void OnEnable()
     {
@@ -34,11 +38,12 @@ public class MiGeolocalizacion : MonoBehaviour
         bool isSessionReady = ARSession.state == ARSessionState.SessionTracking &&
                Input.location.status == LocationServiceStatus.Running;
         var earthTrackingState = EarthManager.EarthTrackingState;
-        var pose = earthTrackingState == TrackingState.Tracking ?
+        pose = earthTrackingState == TrackingState.Tracking ?
             EarthManager.CameraGeospatialPose : new GeospatialPose();
         InfoPanel.SetActive(true);
         if (earthTrackingState == TrackingState.Tracking)
         {
+            
             //Debug.Log("entro al if");
             InfoText.text = string.Format(
             "Latitude/Longitude: {1}°, {2}°{0}" +
@@ -48,13 +53,16 @@ public class MiGeolocalizacion : MonoBehaviour
             "Eun Rotation: {6}{0}" +
             "Orientation Yaw Accuracy: {7}°",
             Environment.NewLine,
-            pose.Latitude.ToString("F6"),
-            pose.Longitude.ToString("F6"),
-            pose.HorizontalAccuracy.ToString("F6"),
+            pose.Latitude.ToString("F5"),
+            pose.Longitude.ToString("F5"),
+            pose.HorizontalAccuracy.ToString("F5"),
             pose.Altitude.ToString("F2"),
             pose.VerticalAccuracy.ToString("F2"),
             pose.EunRotation.ToString("F1"),
             pose.OrientationYawAccuracy.ToString("F1"));
+            latitud = pose.Latitude.ToString("F5");
+            longitud = pose.Longitude.ToString("F5");
+            
         }
         else
         {
@@ -97,6 +105,15 @@ public class MiGeolocalizacion : MonoBehaviour
             Input.location.Stop();
         }
     }
-  
+    public string getLatitud()
+    {
+
+        return latitud;
+    }
+    public string getLongitud()
+    {
+
+        return longitud;
+    }
 
 }
