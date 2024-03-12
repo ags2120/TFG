@@ -3,10 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class FuentesDatos
+public class listaFuentes
 {
-    
-    public string nombre;
-    public string token;
-    public bool activo;
+    public List<FuentesDatos> FuentesDatos = new List<FuentesDatos>();
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using TMPro;
-using UnityEditor.VersionControl;
+//using UnityEditor.VersionControl;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -59,6 +59,7 @@ public class mostrarFuentesDatos : MonoBehaviour
     {
         ListaFuentesDatos = fuentes.CargarDatosDesdeJSON(ListaFuentesDatos);
         GameObject nuevoPanel = Instantiate(panelFuente, panelPadre.GetComponent<RectTransform>());
+        nuevoPanel.SetActive(true);
         if (nuevoPanel != null)
             nombreFuente = nuevoPanel.GetComponentInChildren<TextMeshProUGUI>();
         if (i <= ListaFuentesDatos.Count)

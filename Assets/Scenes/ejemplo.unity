@@ -8523,6 +8523,7 @@ GameObject:
   - component: {fileID: 1301810140}
   - component: {fileID: 1301810141}
   - component: {fileID: 1301810142}
+  - component: {fileID: 1301810143}
   m_Layer: 0
   m_Name: controler
   m_TagString: Untagged
@@ -8604,6 +8605,7 @@ MonoBehaviour:
   panelMenuInicial: {fileID: 649311972}
   panelFuentesDatos: {fileID: 1314826954}
   panelNuevaFuente: {fileID: 1985293576}
+  panels: []
   currentPanel: 0
   flecha: {fileID: 2051004610}
 --- !u!114 &1301810139
@@ -8667,6 +8669,18 @@ MonoBehaviour:
   panelPadre: {fileID: 1314826954}
   nombreFuente: {fileID: 1502626053}
   ListaFuentesDatos: []
+--- !u!114 &1301810143
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1301810132}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9b5e113b09a5064a86a42822b71dbd7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1303331207
 GameObject:
   m_ObjectHideFlags: 0
@@ -14463,6 +14477,7 @@ GameObject:
   - component: {fileID: 1932318737}
   - component: {fileID: 1932318736}
   - component: {fileID: 1932318735}
+  - component: {fileID: 1932318739}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -14580,19 +14595,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1932318736}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1301810139}
-        m_TargetAssemblyTypeName: Mensaje, Assembly-CSharp
-        m_MethodName: EliminarFuente
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!222 &1932318738
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -14601,6 +14604,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1932318733}
   m_CullTransparentMesh: 1
+--- !u!114 &1932318739
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1932318733}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9b5e113b09a5064a86a42822b71dbd7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1967854623
 GameObject:
   m_ObjectHideFlags: 0

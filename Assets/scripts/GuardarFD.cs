@@ -10,6 +10,7 @@ using UnityEngine.UI;
 public class GuardarFD : MonoBehaviour
 {
     public List<FuentesDatos> ListaFuentesDatos;
+    //private listaFuentes lista;
     public TextMeshProUGUI nombreFuente = null,tokenFuente = null;
     public Toggle fuenteActiva;
     public TMP_InputField input_nombre;
@@ -17,6 +18,7 @@ public class GuardarFD : MonoBehaviour
     private Mensaje mensaje;
     private mostrarFuentesDatos mostrarFD;
     private bool NombreRegistrado = false, TokenRegistrado = false, vacio = false;
+    
     void Start()
     {
         CargarDatosDesdeJSON();
@@ -31,14 +33,18 @@ public class GuardarFD : MonoBehaviour
     } 
     public void GuardarFuente()
     {
-        int nuevoID = ListaFuentesDatos.Count + 1;
+        int size = ListaFuentesDatos.Count;
         FuentesDatos nuevaFuente = new FuentesDatos();
-        nuevaFuente.id = nuevoID;
+        //nuevaFuente.id = nuevoID;
         nuevaFuente.nombre = nombreFuente.text;
         nuevaFuente.token = tokenFuente.text;
         nuevaFuente.activo = fuenteActiva.isOn;
-        if(!validarInput())
+        if (!validarInput())
+        {
             ComprobarDatos(nuevaFuente);
+            //Debug.Log("entro a comprobar datos");
+        }
+            
         
         if (vacio)
         {
@@ -47,14 +53,14 @@ public class GuardarFD : MonoBehaviour
             
         }else if (NombreRegistrado || TokenRegistrado)
         {
-            //Debug.Log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+           // Debug.Log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
             mensaje.NombreOrTokenRepetido();
         }
         else
         {
             ListaFuentesDatos.Add(nuevaFuente);
             GenerarJSON();
-            mostrarFD.CrearInstancia(nuevoID-1);
+            mostrarFD.CrearInstancia(size);
         }
         
     }
@@ -131,6 +137,19 @@ public class GuardarFD : MonoBehaviour
             vacio = false;
         }
         return inputVacio;
+    }
+    public void EliminarFuentePorNombre(string nombre)
+    {
+        bool encontrado = false;
+        for (int i = 0; i < ListaFuentesDatos.Count && !encontrado; i++)
+        {
+            if (nombre == ListaFuentesDatos[i].nombre)
+            {
+                ListaFuentesDatos.RemoveAt(i);
+                encontrado = true;
+            }
+        }
+        
     }
     
 
