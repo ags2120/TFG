@@ -11,6 +11,7 @@ public class slide_metros : MonoBehaviour
     public Slider slider;
     
     
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -18,7 +19,7 @@ public class slide_metros : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    public void changeText()
     {
         int valor = (int)slider.value;
 
