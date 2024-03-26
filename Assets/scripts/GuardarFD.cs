@@ -42,10 +42,7 @@ public class GuardarFD : MonoBehaviour
         if (!validarInput())
         {
             ComprobarDatos(nuevaFuente);
-            //Debug.Log("entro a comprobar datos");
         }
-            
-        
         if (vacio)
         {
             //Debug.Log("campo Vacio");
@@ -53,7 +50,7 @@ public class GuardarFD : MonoBehaviour
             
         }else if (NombreRegistrado || TokenRegistrado)
         {
-           // Debug.Log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+          
             mensaje.NombreOrTokenRepetido();
         }
         else
