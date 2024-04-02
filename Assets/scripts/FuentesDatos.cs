@@ -9,4 +9,5 @@ public class FuentesDatos
     public string nombre;
     public string token;
     public bool activo;
+    public int imagen;
 }

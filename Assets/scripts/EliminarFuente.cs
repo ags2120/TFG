@@ -12,11 +12,13 @@ public class EliminarFuente : MonoBehaviour
     private Mensaje mensaje;
     private GameObject parent;
     private TextMeshProUGUI nombre;
+    
     void Start()
     {
         fd = FindObjectOfType<GuardarFD>();
         Button button = GetComponent<Button>();
         mensaje = FindObjectOfType<Mensaje>();
+       
         if (button != null)
         {
             // Asigna el método OnClick al evento onClick del botón
@@ -42,6 +44,7 @@ public class EliminarFuente : MonoBehaviour
         {
             nombre = parent.GetComponentInChildren<TextMeshProUGUI>();
             fd.EliminarFuentePorNombre(nombre.text);
+            
             // Destruye el GameObject padre
             if (parent.name == "fuente1")
                 parent.SetActive(false);
@@ -54,6 +57,7 @@ public class EliminarFuente : MonoBehaviour
         {
             Debug.Log("parent  null");
         }
+        
         
     }
 

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
+
 //using UnityEditor.PackageManager.Requests;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,6 +17,8 @@ public class GuardarFD : MonoBehaviour
     public Toggle fuenteActiva;
     public TMP_InputField input_nombre;
     public TMP_InputField input_token;
+    public TMP_Dropdown dropdown;
+    private string numImage;
     private Mensaje mensaje;
     private mostrarFuentesDatos mostrarFD;
     private bool NombreRegistrado = false, TokenRegistrado = false, vacio = false;
@@ -24,6 +28,8 @@ public class GuardarFD : MonoBehaviour
         CargarDatosDesdeJSON();
         mensaje = FindObjectOfType<Mensaje>();
         mostrarFD = FindObjectOfType<mostrarFuentesDatos>();
+        //iconos.onValueChanged.AddListener(OnDropdownValueChanged);
+       
     }
     public void GenerarJSON() 
     {
@@ -33,12 +39,13 @@ public class GuardarFD : MonoBehaviour
     } 
     public void GuardarFuente()
     {
+        GetDropdownOption();
         int size = ListaFuentesDatos.Count;
         FuentesDatos nuevaFuente = new FuentesDatos();
-        //nuevaFuente.id = nuevoID;
         nuevaFuente.nombre = nombreFuente.text;
         nuevaFuente.token = tokenFuente.text;
         nuevaFuente.activo = fuenteActiva.isOn;
+        nuevaFuente.imagen = int.Parse(numImage);
         if (!validarInput())
         {
             ComprobarDatos(nuevaFuente);
@@ -146,8 +153,16 @@ public class GuardarFD : MonoBehaviour
                 encontrado = true;
             }
         }
+        mostrarFD.comprobarActivas();
+
+    }
+    private void GetDropdownOption()
+    {
+        
+        numImage = dropdown.options[dropdown.value].text;
+        
         
     }
-    
+
 
 }

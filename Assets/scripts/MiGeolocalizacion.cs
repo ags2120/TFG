@@ -40,7 +40,7 @@ public class MiGeolocalizacion : MonoBehaviour
         var earthTrackingState = EarthManager.EarthTrackingState;
         pose = earthTrackingState == TrackingState.Tracking ?
             EarthManager.CameraGeospatialPose : new GeospatialPose();
-        InfoPanel.SetActive(true);
+        //InfoPanel.SetActive(true);
         if (earthTrackingState == TrackingState.Tracking)
         {
             
