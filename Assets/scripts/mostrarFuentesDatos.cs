@@ -96,7 +96,7 @@ public class mostrarFuentesDatos : MonoBehaviour
 
     public void comprobarActivas()
     {
-        Debug.Log("entro a comprobar activas");
+        
         int activas = 0;
         for (int i= 0;i<fuentes.ListaFuentesDatos.Count;i++)
         {

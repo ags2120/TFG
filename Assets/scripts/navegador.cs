@@ -24,13 +24,7 @@ public class navegador : MonoBehaviour
     public GameObject flecha;
     private bool flechaClicked = false;
 
-   /* private void Start()
-    {
-        panels = new GameObject[3];
-        panels[0] = panelMenuInicial;
-        panels[1] = panelFuentesDatos;
-        panels[2] = panelNuevaFuente;
-    }*/
+   
     public void Update()
     {
         if (currentPanel == Panel.panelMenuInicial && flecha.activeSelf)
@@ -94,38 +88,9 @@ public class navegador : MonoBehaviour
         OnClickNavegador();
         flechaClicked = false;
     }
-    public void DesactivarInteractividadOtrosPaneles()
-    {
-        foreach (GameObject panel in panels)
-        {
-            
-                DesactivarInteractividadPanel(panel);
-            
-        }
-    }
-    private void DesactivarInteractividadPanel(GameObject panel)
-    {
-        GraphicRaycaster raycaster = panel.GetComponent<GraphicRaycaster>();
-        if (raycaster != null)
-        {
-            raycaster.enabled = false;
-        }
-    }
+    
+   
 
-    // Método para restaurar la interactividad de un panel
-    private void RestaurarInteractividadPanel(GameObject panel)
-    {
-        GraphicRaycaster raycaster = panel.GetComponent<GraphicRaycaster>();
-        if (raycaster != null)
-        {
-            raycaster.enabled = true;
-        }
-    }
-    public void RestaurarInteractividadPaneles()
-    {
-        foreach (GameObject panel in panels)
-        {
-            RestaurarInteractividadPanel(panel);
-        }
-    }
+    
+    
 }

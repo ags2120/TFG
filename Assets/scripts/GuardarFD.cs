@@ -62,9 +62,11 @@ public class GuardarFD : MonoBehaviour
         }
         else
         {
+           
             ListaFuentesDatos.Add(nuevaFuente);
             GenerarJSON();
             mostrarFD.CrearInstancia(size);
+            mensaje.GuardadoCorrectamente();
         }
         
     }
