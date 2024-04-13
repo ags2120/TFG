@@ -12,11 +12,12 @@ public class mostrarFuentesDatos : MonoBehaviour
 {
     public GestionImagenes gestionImagenes;
     public GameObject panelFuente, panelPadre;
+    public List<GameObject> paneles;
     //private bool hayFuente = false;
     public TextMeshProUGUI nombreFuente, activas_totales;
     public RawImage imagen;
     public Button eliminar;
-    private RawImage[] imagenes;
+   // private RawImage[] imagenes;
     
     private GuardarFD fuentes;
     // Start is called before the first frame update
@@ -37,9 +38,12 @@ public class mostrarFuentesDatos : MonoBehaviour
                     panelFuente.SetActive(true);
                     nombreFuente.text = fuentes.ListaFuentesDatos[i].nombre;
                     imagen.texture = MostraImagen(fuentes.ListaFuentesDatos[i].imagen);
-                    imagenes = panelFuente.GetComponentsInChildren<RawImage>();
-                    mostrarInactivas(i,imagen, nombreFuente, imagenes[1], imagenes[2]);
+                    
+                    //imagenes = panelFuente.GetComponentsInChildren<RawImage>();
+                    mostrarInactivas(i,imagen, nombreFuente);
                     primeraFuente = true;
+                    
+
                 }
                 else
                 {
@@ -47,7 +51,8 @@ public class mostrarFuentesDatos : MonoBehaviour
                     CrearInstancia(i);
                        
                 }
-                   
+                
+
             }
 
         }
@@ -67,7 +72,7 @@ public class mostrarFuentesDatos : MonoBehaviour
             nombreFuente = nuevoPanel.GetComponentInChildren<TextMeshProUGUI>();
             imagen = nuevoPanel.GetComponentInChildren<RawImage>();
             eliminar = nuevoPanel.GetComponentInChildren<Button>();
-            imagenes = nuevoPanel.GetComponentsInChildren<RawImage>(); //Guardamos las imágenes porque hay más de una en la misma capa
+            //imagenes = nuevoPanel.GetComponentsInChildren<RawImage>(); //Guardamos las imágenes porque hay más de una en la misma capa
             //Debug.Log("tamaño array de imágenes : " + imagenes.Length);
         }
             
@@ -77,9 +82,12 @@ public class mostrarFuentesDatos : MonoBehaviour
             imagen.texture = MostraImagen(fuentes.ListaFuentesDatos[i].imagen);
             
 
+
         }
+
         comprobarActivas();
-        mostrarInactivas(i,imagen, nombreFuente, imagenes[1], imagenes[2]);
+        mostrarInactivas(i,imagen, nombreFuente);
+        paneles.Add(nuevoPanel);
 
     }
     public Texture2D MostraImagen(int i)
@@ -107,7 +115,7 @@ public class mostrarFuentesDatos : MonoBehaviour
         }
         activas_totales.text = activas.ToString() + "/" + fuentes.ListaFuentesDatos.Count.ToString() + "  Activas/Totales";
     }
-    public void mostrarInactivas(int i,RawImage icono,TextMeshProUGUI nombre,RawImage editar, RawImage eliminar)
+    public void mostrarInactivas(int i,RawImage icono,TextMeshProUGUI nombre)
     {
         //Color color_nombre = new Color(nombre.color.r, nombre.color.g, nombre.color.b, 0.5f);
 
@@ -116,18 +124,37 @@ public class mostrarFuentesDatos : MonoBehaviour
 
             nombre.color = new Color(nombre.color.r, nombre.color.g, nombre.color.b, 0.4f);
             icono.color = new Color(icono.color.r, icono.color.g, icono.color.b, 0.4f);
-            editar.color = new Color(editar.color.r, editar.color.g, editar.color.b, 0.4f);
-            eliminar.color = new Color(eliminar.color.r, eliminar.color.g, eliminar.color.b, 0.4f);
+            
 
         }
         else
         {
             nombre.color = Color.white;
             icono.color = new Color(icono.color.r, icono.color.g, icono.color.b, 1f);
-            editar.color = new Color(editar.color.r, editar.color.g, editar.color.b, 1f);
-            eliminar.color = new Color(eliminar.color.r, eliminar.color.g, eliminar.color.b, 1f);
+           
         }
         
+        
+    }
+    public void FuenteEditada(string nombreAntiguo,string nombreNuevo,int i)
+    {
+        // imagen.texture = MostraImagen(fuentes.ListaFuentesDatos[i].imagen);
+        //nombreFuente.text = nombre;
+        foreach (GameObject panel in paneles)
+        {
+            TextMeshProUGUI textoDelPanel = panel.GetComponentInChildren<TextMeshProUGUI>();
+            if (textoDelPanel != null)
+            {
+                if (textoDelPanel.text == nombreAntiguo)
+                {
+                    panel.GetComponentInChildren<RawImage>().texture = MostraImagen(fuentes.ListaFuentesDatos[i].imagen);
+                    panel.GetComponentInChildren<TextMeshProUGUI>().text = nombreNuevo;
+                    mostrarInactivas(i, panel.GetComponentInChildren<RawImage>(), panel.GetComponentInChildren<TextMeshProUGUI>());
+                }
+            }
+        }
+        mostrarInactivas(i, imagen, nombreFuente);
+        comprobarActivas();
         
     }
     

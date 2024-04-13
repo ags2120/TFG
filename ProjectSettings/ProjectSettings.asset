@@ -715,7 +715,9 @@ PlayerSettings:
   webGLThreadsSupport: 0
   webGLDecompressionFallback: 0
   webGLPowerPreference: 2
-  scriptingDefineSymbols: {}
+  scriptingDefineSymbols:
+    Android: NET_4_6;ARCORE_INTERNAL_GEOSPATIAL_CREATOR_ENABLED
+    iPhone: ARCORE_INTERNAL_GEOSPATIAL_CREATOR_ENABLED
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend:
@@ -817,7 +819,7 @@ PlayerSettings:
     m_VersionCode: 1
     m_VersionName: 
   apiCompatibilityLevel: 6
-  activeInputHandler: 0
+  activeInputHandler: 2
   windowsGamepadBackendHint: 0
   cloudProjectId: dae0d220-bfa2-424d-8524-3a678cb7a77e
   framebufferDepthMemorylessMode: 0

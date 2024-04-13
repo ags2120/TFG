@@ -13,10 +13,13 @@ public class DragMenu : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
     public GameObject gameObj;
     public GameObject flecha;
 
+    public ocultar_mostrar_Gameobject oculultar_mostrar;
+
     void Start()
     {
         gameObj = GameObject.Find("controler");
         desple = gameObj.GetComponent<Desplegable>();
+        oculultar_mostrar = FindObjectOfType<ocultar_mostrar_Gameobject>();
         //menuTransform = transform.parent.parent.GetComponent<RectTransform>(); // Obtener el RectTransform del menú desplegable
     }
 
@@ -35,10 +38,10 @@ public class DragMenu : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
     public void OnDrag(PointerEventData eventData)
     {
        
-        float deltaY = eventData.position.y - initialMousePosition.y;
+        float deltaY = eventData.position.x - initialMousePosition.x;
         if (deltaY < 0)                                                                         //Para que no se pueda subir el menú arriba
         {
-            menuTransform.anchoredPosition = initialMenuPosition + new Vector2(0, deltaY);
+            menuTransform.anchoredPosition = initialMenuPosition + new Vector2(deltaY, 0);
         }
        
         
@@ -48,20 +51,24 @@ public class DragMenu : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
     {
         
         // Calcula la distancia total movida en el eje Y
-        float deltaY = eventData.position.y - initialMousePosition.y;
+        float deltaY = eventData.position.x - initialMousePosition.x;
 
         // Define una distancia mínima para considerar como "movimiento significativo"
-        float minDistance = 600; 
+        float minDistance = 400; 
 
         // Comprueba si la distancia movida es mayor o menor que la distancia mínima
         if (Mathf.Abs(deltaY) > minDistance)
         {
             // Realiza una acción si la distancia movida es mayor que la distancia mínima
             UnityEngine.Debug.Log("Escondo menú.");
-            float posY = (float)Screen.height / 3;
-            menuTransform.anchoredPosition = initialMenuPosition + new Vector2(0, -2000);
-            desple.menuAbierto = true;
             
+            menuTransform.anchoredPosition = initialMenuPosition + new Vector2(-1000, 0);
+            desple.menuAbierto = true;
+            //boton_menu.SetActive(true);
+            //detector.SetActive(false);
+            oculultar_mostrar.Mostrar_Panel_Detector(false);
+            oculultar_mostrar.Mostrar_Boton_Menu(true);
+
         }
         else
         {
@@ -74,7 +81,7 @@ public class DragMenu : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
     }
     public void getTransform()
     {
-        menuTransform = transform.parent.GetComponent<RectTransform>(); // Obtener el RectTransform del menú desplegable
+        menuTransform = transform.GetComponent<RectTransform>(); // Obtener el RectTransform del menú desplegable
     }
     
 }

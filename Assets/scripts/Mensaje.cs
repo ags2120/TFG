@@ -26,6 +26,10 @@ public class Mensaje : MonoBehaviour
     private string mensajeVacio = "Debe rellenar los campos para continuar";
 
     private string guardadoCorrecto = "Fuente de Datos guardada correctamente";
+
+    private string editadoCorrecto = "Fuente Editada Correctamente";
+
+    private string NombreEditadoIncorrecto = "El nombre que desea poner ya pertenece a otra Fuente de Datos";
     public void Start()
     {
        
@@ -80,6 +84,18 @@ public class Mensaje : MonoBehaviour
         mostrarMensaje(guardadoCorrecto);
         boton_eliminar.gameObject.SetActive(false);
         setImageAndButton(verde, "Aceptar", 1);
+    }
+    public void EditadoCorrectamente()
+    {
+        mostrarMensaje(editadoCorrecto);
+        boton_eliminar.gameObject.SetActive(false);
+        setImageAndButton(verde, "Aceptar", 1);
+    }
+    public void EditadoIncorrecto()
+    {
+        mostrarMensaje(NombreEditadoIncorrecto);
+        boton_eliminar.gameObject.SetActive(false);
+        setImageAndButton(azul, "Aceptar", 0);
     }
    
     // Función para desactivar la interactividad del panel y sus hijos

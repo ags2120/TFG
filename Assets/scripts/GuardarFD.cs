@@ -21,7 +21,7 @@ public class GuardarFD : MonoBehaviour
     private string numImage;
     private Mensaje mensaje;
     private mostrarFuentesDatos mostrarFD;
-    private bool NombreRegistrado = false, TokenRegistrado = false, vacio = false;
+    public bool NombreRegistrado = false, TokenRegistrado = false, vacio = false;
     
     void Start()
     {
@@ -99,7 +99,7 @@ public class GuardarFD : MonoBehaviour
         }
         return ListaFuentes;
     }
-    void ComprobarDatos(FuentesDatos nuevaFuente)
+    public void ComprobarDatos(FuentesDatos nuevaFuente)
     {
         bool encontrado = false;
         for (int i = 0;i<ListaFuentesDatos.Count;i++)
@@ -125,7 +125,7 @@ public class GuardarFD : MonoBehaviour
         }
         
     }
-    bool validarInput()
+    public bool validarInput()
     {
         string texto = input_nombre.text;
         string texto_token = input_token.text;
@@ -152,6 +152,7 @@ public class GuardarFD : MonoBehaviour
             if (nombre == ListaFuentesDatos[i].nombre)
             {
                 ListaFuentesDatos.RemoveAt(i);
+                mostrarFD.paneles.RemoveAt(i);
                 encontrado = true;
             }
         }

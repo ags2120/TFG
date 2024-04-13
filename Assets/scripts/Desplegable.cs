@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Desplegable : MonoBehaviour
 {
@@ -10,16 +11,22 @@ public class Desplegable : MonoBehaviour
     //float posinit;
     public bool menuAbierto = true;
     public float tiempo = 0.5f;
-    
+    private float posInit;
+    public GameObject detector;
+    public GameObject boton_menu;
+    public ocultar_mostrar_Gameobject ocultar_mostrar;
    
     // Start is called before the first frame update
     void Start()
     {
         //posinit = desplegable.position.y;
+        posInit = desplegable.position.x;
+        posY = Screen.width / ToSingle(2);
+        desplegable.position = new Vector3(-posY, desplegable.position.y, 0);
+        ocultar_mostrar = FindObjectOfType<ocultar_mostrar_Gameobject>();
+        //detector.SetActive(false);
         
-        posY = Screen.height / ToSingle(3);
-        desplegable.position = new Vector3(desplegable.position.x, -posY, 0);
-       
+
     }
 
     public static float ToSingle(double value)
@@ -50,9 +57,26 @@ public class Desplegable : MonoBehaviour
 
         int signo = 1;
         if (!menuAbierto)
+        {
             signo = -1;
+            MoverMenu(tiempo, desplegable.position, new Vector3(signo * posY, desplegable.position.y, 0));
+            ocultar_mostrar.Mostrar_Boton_Menu(true);
+            ocultar_mostrar.Mostrar_Panel_Detector(false);
+           // boton_menu.SetActive(true);
+           // detector.SetActive(false);
+        }
+        else
+        {
+            MoverMenu(tiempo, desplegable.position, new Vector3(posInit, desplegable.position.y, 0));
+           
+            ocultar_mostrar.Mostrar_Boton_Menu(false);
+            ocultar_mostrar.Mostrar_Panel_Detector(true);
 
-        MoverMenu(tiempo, desplegable.position, new Vector3(desplegable.position.x, signo * posY, 0));
+            //boton_menu.SetActive(false);
+            //detector.SetActive(true);
+        }
+            
+
         menuAbierto = !menuAbierto;
     }
     

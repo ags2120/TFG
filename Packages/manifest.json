@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.cesium.unity": "file:C:/Users/Nitropc/Downloads/com.cesium.unity-1.7.1.tgz",
     "com.google.ar.core.arfoundation.extensions": "file:C:/Users/Nitropc/Downloads/arcore-unity-extensions-1.37.0.tgz",
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.2d.spriteshape": "7.0.7",

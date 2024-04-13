@@ -1,5 +1,6 @@
 
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -23,6 +24,7 @@ public class ClienteAPI : MonoBehaviour
     public TextMeshProUGUI debug;
     private MiGeolocalizacion geo;
     private string latitud, longitud;
+    //private GestionarPost gestionarPost;
 
 
     void Start()
@@ -31,6 +33,7 @@ public class ClienteAPI : MonoBehaviour
         valorMetros = sliderValue.GetComponent<slide_metros>();
         fecha = FindObjectOfType<calcularFecha>();
         geo = FindObjectOfType<MiGeolocalizacion>();
+       // gestionarPost = FindObjectOfType<GestionarPost>();
         
 
 
@@ -65,7 +68,7 @@ public class ClienteAPI : MonoBehaviour
                 string jsonResponse = request.downloadHandler.text;
 
                 // Reemplaza las comas con comas seguidas de un salto de línea
-                jsonResponse = jsonResponse.Replace("],", "],\n");
+               // jsonResponse = jsonResponse.Replace("],", "],\n");
 
                 Debug.Log("Response: " + request.downloadHandler.text);
                 // Aquí puedes procesar los datos devueltos
@@ -75,6 +78,7 @@ public class ClienteAPI : MonoBehaviour
             }
         }
     }
+   
     IEnumerator SendRequestPOST()
     {
 
@@ -112,8 +116,7 @@ public class ClienteAPI : MonoBehaviour
          */
         using (UnityWebRequest request = UnityWebRequest.Post(urlWithToken,form))
         {
-           // request.SetRequestHeader("Authorization", "Bearer " + accestoken);
-            //request.SetRequestHeader("Content-Type", "application/json");
+           
             yield return request.SendWebRequest();
 
             // Maneja la respuesta
@@ -124,12 +127,13 @@ public class ClienteAPI : MonoBehaviour
             else
             {
                 string jsonResponse = request.downloadHandler.text;
-
+                //gestionarPost.GestionarRespuesta(jsonResponse);
                 // Reemplaza las comas con comas seguidas de un salto de línea
                 jsonResponse = jsonResponse.Replace("],", "],\n");
 
                 Debug.Log("Response: " + request.downloadHandler.text);
-               // Aquí puedes procesar los datos devueltos
+                // Aquí puedes procesar los datos devueltos
+                
                 string filePath = Application.persistentDataPath + "/post.json";
                 System.IO.File.WriteAllText(filePath, jsonResponse);
                 Debug.Log("Response saved to: " + filePath);
