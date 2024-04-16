@@ -6,8 +6,9 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
-
-
+//                                                          POST
+//  0      1      2       3         4           5     6     7      8        9               10              11          12          13
+//"time","uid","value","metric","typemeter","alias","lat","lon","cota","description","description_origin","name","organizationid","origin"
 
 public class ClienteAPI : MonoBehaviour
 {
@@ -87,21 +88,24 @@ public class ClienteAPI : MonoBehaviour
         //latitud = geo.getLatitud().Replace(",", ".");
         //longitud = geo.getLongitud().Replace(",", ".");
         //Debug.Log("El valor del Slide es:" + valor);
-        string urlWithToken = apiUrlPost + tokenAgua;
+        string urlWithToken = apiUrlPost + tokenEnergia;
 
         /***************************************PRUEBAS******************************************/
         string urlPrueba = apiUrlPost + tokenPruebas;                                            
         WWWForm formPrueba = new WWWForm();
         formPrueba.AddField("time_start", fecha.time_start);
         formPrueba.AddField("time_end", fecha.time_end);
-        formPrueba.AddField("geo_position[lat]", "38.57042");
-        formPrueba.AddField("geo_position[lon]", "-0.12439");
-        formPrueba.AddField("geo_position[radius_km]", valorfin);
-        
+        //formPrueba.AddField("geo_position[lat]", "38.57042");
+        //formPrueba.AddField("geo_position[lon]", "-0.12439");
+       // formPrueba.AddField("geo_position[radius_km]", valorfin);
+       // formPrueba.AddField("limit", "100");
+        //formPrueba.AddField("count", "false");
+
 
         /***************************************PRUEBAS******************************************/
 
         WWWForm form = new WWWForm();
+        
         form.AddField("time_start", fecha.time_start);
         form.AddField("time_end", fecha.time_end);
         form.AddField("geo_position[lat]", "38.38739");

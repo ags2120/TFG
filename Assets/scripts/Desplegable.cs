@@ -12,7 +12,7 @@ public class Desplegable : MonoBehaviour
     public bool menuAbierto = true;
     public float tiempo = 0.5f;
     private float posInit;
-    public GameObject detector;
+   
     public GameObject boton_menu;
     public ocultar_mostrar_Gameobject ocultar_mostrar;
    
@@ -62,8 +62,8 @@ public class Desplegable : MonoBehaviour
             MoverMenu(tiempo, desplegable.position, new Vector3(signo * posY, desplegable.position.y, 0));
             ocultar_mostrar.Mostrar_Boton_Menu(true);
             ocultar_mostrar.Mostrar_Panel_Detector(false);
-           // boton_menu.SetActive(true);
-           // detector.SetActive(false);
+            ocultar_mostrar.Mostrar_Panel_RayCast(true);
+           
         }
         else
         {
@@ -71,9 +71,9 @@ public class Desplegable : MonoBehaviour
            
             ocultar_mostrar.Mostrar_Boton_Menu(false);
             ocultar_mostrar.Mostrar_Panel_Detector(true);
+            ocultar_mostrar.Mostrar_Panel_RayCast(false);
 
-            //boton_menu.SetActive(false);
-            //detector.SetActive(true);
+            
         }
             
 

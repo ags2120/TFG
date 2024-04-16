@@ -153,7 +153,7 @@ public class mostrarFuentesDatos : MonoBehaviour
                 }
             }
         }
-        mostrarInactivas(i, imagen, nombreFuente);
+        //mostrarInactivas(i, imagen, nombreFuente);
         comprobarActivas();
         
     }

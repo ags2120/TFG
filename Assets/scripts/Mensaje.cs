@@ -41,7 +41,7 @@ public class Mensaje : MonoBehaviour
        
         textoMensaje.text = mensaje;
         panelMensaje.SetActive(true);
-        Desactivar_Activar_InteraccionPanel();
+        Desactivar_Activar_InteraccionPanel(false);
         
         
 
@@ -51,13 +51,13 @@ public class Mensaje : MonoBehaviour
         
         panelMensaje.SetActive(false);
         elimFuent.EliminarFuenteDatos(parentElim);
-        Desactivar_Activar_InteraccionPanel();
+        Desactivar_Activar_InteraccionPanel(true);
 
     }
     public void onClickCancelarEliminacion()
     {
         panelMensaje.SetActive(false);
-        Desactivar_Activar_InteraccionPanel();
+        Desactivar_Activar_InteraccionPanel(true);
 
     }
     public void EliminarFuente(GameObject parent)
@@ -99,12 +99,12 @@ public class Mensaje : MonoBehaviour
     }
    
     // Función para desactivar la interactividad del panel y sus hijos
-    public void Desactivar_Activar_InteraccionPanel()
+    public void Desactivar_Activar_InteraccionPanel(bool activar)
     {
         GraphicRaycaster raycaster = panelADesactivar.GetComponent<GraphicRaycaster>();
-        if(raycaster.enabled)
+        if(raycaster.enabled && !activar)
             raycaster.enabled = false;
-        else
+        else if(!raycaster.enabled && activar)
             raycaster.enabled = true;
     }
     public void setImageAndButton(string color, string texto,int indice_img)
