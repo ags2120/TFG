@@ -21,6 +21,7 @@ public class navegador : MonoBehaviour
     public GameObject panelFuentesDatos;
     public GameObject panelNuevaFuente;
     public GameObject panelEditarFuente;
+    public TextMeshProUGUI titulo_menu;
     //public GameObject[] panels;
     public Panel currentPanel;
 
@@ -55,7 +56,7 @@ public class navegador : MonoBehaviour
         switch (currentPanel)
         {
             case Panel.panelMenuInicial:
-
+                    titulo_menu.text = "Fuentes de Datos";
                     panelFuentesDatos.SetActive(true);
                     currentPanel = Panel.panelFuentesDatos;
                    
@@ -65,17 +66,21 @@ public class navegador : MonoBehaviour
 
                 if (flechaClicked == true)
                 {
+                    titulo_menu.text = "Menú de Opciones";
                     panelMenuInicial.SetActive(true);
                     currentPanel = Panel.panelMenuInicial;
+
                 }else if(editarClicked == true)
                 {
                     panelEditarFuente.SetActive(true);
                     currentPanel = Panel.panelEditarFuente;
+                    titulo_menu.text = "Editar Fuente";
                 }
                 else
                 {
                     panelNuevaFuente.SetActive(true);
                     currentPanel = Panel.panelNuevaFuente;
+                    titulo_menu.text = "Añadir Fuente";
                 }
                 break;
 
@@ -85,6 +90,7 @@ public class navegador : MonoBehaviour
                 {
                     panelFuentesDatos.SetActive(true);
                     currentPanel = Panel.panelFuentesDatos;
+                    titulo_menu.text = "Fuentes de Datos";
                 }
                 else
                 {
@@ -98,7 +104,8 @@ public class navegador : MonoBehaviour
                 
                  panelFuentesDatos.SetActive(true);
                  currentPanel = Panel.panelFuentesDatos;
-               
+                 titulo_menu.text = "Fuentes de Datos";
+
 
                 break;
 

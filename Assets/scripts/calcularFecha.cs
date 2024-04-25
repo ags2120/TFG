@@ -9,6 +9,7 @@ public class calcularFecha : MonoBehaviour
    // private string hora;
     public string time_end;
     public string time_start;
+    public string hora;
     private DateTime currentDate;
     private DateTime restDate;
     private slide_minutos valorMinutos;
@@ -33,7 +34,7 @@ public class calcularFecha : MonoBehaviour
     private void calcularTimeEnd()
     {
         string fecha = currentDate.ToString("yyyy-MM-dd");
-        string hora = currentDate.ToString("HH:mm:ss");
+        hora = currentDate.ToString("HH:mm:ss");
         time_end = fecha + "T" + hora + "Z";
     }
     private void calcularTimeStart()

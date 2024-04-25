@@ -14,7 +14,7 @@ public class MiGeolocalizacion : MonoBehaviour
     public ARSession arSession;
     public AREarthManager EarthManager;
     public GameObject InfoPanel;
-    public Text InfoText;
+    public Text InfoText, horaAc,elementos,distanciaDetec,tiempo;
     private IEnumerator _startLocationService = null;
     private bool _waitingForLocationService = false;
     public GeospatialPose pose;
@@ -46,6 +46,7 @@ public class MiGeolocalizacion : MonoBehaviour
             
             //Debug.Log("entro al if");
             InfoText.text = string.Format(
+            "GPS INFORMATION" +
             "Latitude/Longitude: {1}°, {2}°{0}" +
             "Horizontal Accuracy: {3}m{0}" +
             "Altitude: {4}m{0}" +
@@ -69,6 +70,19 @@ public class MiGeolocalizacion : MonoBehaviour
             InfoText.text = "GEOSPATIAL POSE: NOT TRACKING";
             
         }
+    }
+    public void ShowDatosPost(string hora, int num_elementos, float distancia, float minutos)
+    {
+        /* Debug.Log("**************************");
+         Debug.Log(hora);
+         Debug.Log(num_elementos);
+         Debug.Log(distancia);
+         Debug.Log(minutos);*/
+
+        horaAc.text = "Ultima petición: "+hora.ToString() + " (hh/mmm/ss)";
+        elementos.text = "Elementos Recuperados: "+num_elementos.ToString() + " elementos";
+        distanciaDetec.text = "Distancia de Detección: "+distancia.ToString() + " m";
+        tiempo .text= "Tiempo de Antigüedad: " + minutos.ToString() + " mins";
     }
     private IEnumerator StartLocationService()
     {
@@ -115,5 +129,8 @@ public class MiGeolocalizacion : MonoBehaviour
 
         return longitud;
     }
+    
+    
+    
 
 }

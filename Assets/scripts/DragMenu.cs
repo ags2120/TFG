@@ -68,6 +68,7 @@ public class DragMenu : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
             //detector.SetActive(false);
             oculultar_mostrar.Mostrar_Panel_Detector(false);
             oculultar_mostrar.Mostrar_Boton_Menu(true);
+            oculultar_mostrar.Mostrar_Boton_Salir(true);
 
         }
         else

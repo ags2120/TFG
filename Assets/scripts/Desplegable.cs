@@ -61,6 +61,7 @@ public class Desplegable : MonoBehaviour
             signo = -1;
             MoverMenu(tiempo, desplegable.position, new Vector3(signo * posY, desplegable.position.y, 0));
             ocultar_mostrar.Mostrar_Boton_Menu(true);
+            ocultar_mostrar.Mostrar_Boton_Salir(true);
             ocultar_mostrar.Mostrar_Panel_Detector(false);
             ocultar_mostrar.Mostrar_Panel_RayCast(true);
            
@@ -70,6 +71,7 @@ public class Desplegable : MonoBehaviour
             MoverMenu(tiempo, desplegable.position, new Vector3(posInit, desplegable.position.y, 0));
            
             ocultar_mostrar.Mostrar_Boton_Menu(false);
+            ocultar_mostrar.Mostrar_Boton_Salir(false);
             ocultar_mostrar.Mostrar_Panel_Detector(true);
             ocultar_mostrar.Mostrar_Panel_RayCast(false);
 

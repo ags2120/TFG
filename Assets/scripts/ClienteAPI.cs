@@ -1,6 +1,8 @@
 
+using Newtonsoft.Json.Linq;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -23,6 +25,7 @@ public class ClienteAPI : MonoBehaviour
     private slide_metros valorMetros;
     private calcularFecha fecha;
     public TextMeshProUGUI debug;
+    public Slider sliderMinutos;
     private MiGeolocalizacion geo;
     private string latitud, longitud;
     //private GestionarPost gestionarPost;
@@ -140,9 +143,16 @@ public class ClienteAPI : MonoBehaviour
                 
                 string filePath = Application.persistentDataPath + "/post.json";
                 System.IO.File.WriteAllText(filePath, jsonResponse);
+                MostrarDatosPost(jsonResponse);
                 Debug.Log("Response saved to: " + filePath);
             }
         }
+    }
+    public void MostrarDatosPost(string json)
+    {
+        JObject jsonObject = JObject.Parse(json);
+        JArray valuesArray = (JArray)jsonObject["result"]["values"];
+        geo.ShowDatosPost(fecha.hora, valuesArray.Count(), valorMetros.slider.value, sliderMinutos.value);
     }
 }
 
