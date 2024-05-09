@@ -14,17 +14,20 @@ public class MiGeolocalizacion : MonoBehaviour
     public ARSession arSession;
     public AREarthManager EarthManager;
     public GameObject InfoPanel;
-    public Text InfoText, horaAc,elementos,distanciaDetec,tiempo;
+    public Text InfoText, horaAc,elementos,distanciaDetec,tiempo,distanciaRefresco,estadoGeo;
     private IEnumerator _startLocationService = null;
     private bool _waitingForLocationService = false;
-    public GeospatialPose pose;
+    public GeospatialPose pose, poseIni;
     private string latitud,longitud;
-
+    private bool primeraPose = true;
+    private slide_metros valorMetros;
+    private float distance,metrosRefresco;
     void Start()
     {
-         
+
         
-       
+        valorMetros = FindObjectOfType<slide_metros>();
+
     }
     public void OnEnable()
     {
@@ -43,10 +46,15 @@ public class MiGeolocalizacion : MonoBehaviour
         //InfoPanel.SetActive(true);
         if (earthTrackingState == TrackingState.Tracking)
         {
-            
+            if (primeraPose)
+            {
+                poseIni = pose;
+                primeraPose = false;
+            }
+            //calcularDistancias();
             //Debug.Log("entro al if");
             InfoText.text = string.Format(
-            "GPS INFORMATION" +
+            "GPS INFORMATION:\n" +
             "Latitude/Longitude: {1}°, {2}°{0}" +
             "Horizontal Accuracy: {3}m{0}" +
             "Altitude: {4}m{0}" +
@@ -63,26 +71,24 @@ public class MiGeolocalizacion : MonoBehaviour
             pose.OrientationYawAccuracy.ToString("F1"));
             latitud = pose.Latitude.ToString("F5");
             longitud = pose.Longitude.ToString("F5");
-            
+            estadoGeo.text = "Posición GeoEspacial cogida correctamente";
+            distanciaRefresco.text = "Se han recorrido: " + distance.ToString("F1") + " de " + metrosRefresco + " metros para refrescar";
+
         }
         else
         {
             InfoText.text = "GEOSPATIAL POSE: NOT TRACKING";
-            
+            estadoGeo.text = "La Posición GeoEspacial no se está cogiendo";
         }
     }
     public void ShowDatosPost(string hora, int num_elementos, float distancia, float minutos)
     {
-        /* Debug.Log("**************************");
-         Debug.Log(hora);
-         Debug.Log(num_elementos);
-         Debug.Log(distancia);
-         Debug.Log(minutos);*/
-
         horaAc.text = "Ultima petición: "+hora.ToString() + " (hh/mmm/ss)";
         elementos.text = "Elementos Recuperados: "+num_elementos.ToString() + " elementos";
         distanciaDetec.text = "Distancia de Detección: "+distancia.ToString() + " m";
         tiempo .text= "Tiempo de Antigüedad: " + minutos.ToString() + " mins";
+       
+        
     }
     private IEnumerator StartLocationService()
     {
@@ -130,6 +136,51 @@ public class MiGeolocalizacion : MonoBehaviour
         return longitud;
     }
     
+    public bool calcularDistancias()
+    {
+        bool superada = false;
+        // Convertir las coordenadas de latitud y longitud a radianes
+        float lat1Rad = (float)poseIni.Latitude * Mathf.Deg2Rad;
+        float lon1Rad = (float)poseIni.Longitude * Mathf.Deg2Rad;
+        float lat2Rad = (float)pose.Latitude * Mathf.Deg2Rad;
+        float lon2Rad = (float)pose.Longitude * Mathf.Deg2Rad;
+
+        /*//PRUEBA
+        float lat1Rad = (float)38.57032 * Mathf.Deg2Rad;
+        float lon1Rad = (float)-0.12450 * Mathf.Deg2Rad;
+        float lat2Rad = (float)38.57085 * Mathf.Deg2Rad;
+        float lon2Rad = (float)-0.12388 * Mathf.Deg2Rad;*/
+        // Radio de la Tierra en metros
+        float earthRadius = 6371000; // metros
+
+        // Calcular la diferencia de latitud y longitud
+        float dLat = lat2Rad - lat1Rad;
+        float dLon = lon2Rad - lon1Rad;
+
+        // Calcular la distancia utilizando la fórmula del haversine
+        float a = Mathf.Sin(dLat / 2) * Mathf.Sin(dLat / 2) +
+                  Mathf.Cos(lat1Rad) * Mathf.Cos(lat2Rad) *
+                  Mathf.Sin(dLon / 2) * Mathf.Sin(dLon / 2);
+        float c = 2 * Mathf.Atan2(Mathf.Sqrt(a), Mathf.Sqrt(1 - a));
+        distance = earthRadius * c;
+
+        superada = DistanciaSuperada(distance, superada);
+        //Debug.Log("Distancia entre los dos puntos: " + distance.ToString("F2") + " metros");
+        return superada;
+
+    }
+    public bool DistanciaSuperada(float distanceCalulate, bool superada)
+    {
+        
+
+        metrosRefresco =  valorMetros.slider.value/10;
+        if(metrosRefresco <= distanceCalulate)
+        {
+            poseIni = pose;
+            superada = true;
+        }
+        return superada;
+    }
     
     
 

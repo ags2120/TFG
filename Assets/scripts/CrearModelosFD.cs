@@ -13,14 +13,17 @@ using Google.XR.ARCoreExtensions.GeospatialCreator.Internal;
 public class CrearModelosFD : MonoBehaviour
 {
     //******************Cambiar a post normal cuando acabe las pruebas***********************
-    string folderName = "post_pruebas";
+    string folderName = "fuentes_datos_separadas";
     public GameObject prefab_Arbol;
     private TocarPrefab tocarPrefab;
+    public List<GameObject> InstanciasPrefabs = new List<GameObject>();
     // Start is called before the first frame update
     void Start()
     {
         tocarPrefab = FindObjectOfType<TocarPrefab>();
-        ComprobarJSON();
+        prefab_Arbol.SetActive(false);
+        //ComprobarJSON();
+       
     }
 
     // Update is called once per frame
@@ -34,15 +37,19 @@ public class CrearModelosFD : MonoBehaviour
 
         if (Directory.Exists(folderPath))
         {
-            string[] files = Directory.GetFiles(folderPath, "*.json");
+            //string[] subfolders = Directory.GetDirectories(folderPath);
+            
+                string[] files = Directory.GetFiles(folderPath, "*.json");
 
-            Debug.Log("Número de archivos .json encontrados: " + files.Length);
+                Debug.Log("Número de archivos .json encontrados: " + files.Length);
 
-            foreach (string file in files)
-            {
-                // Llamar a la función para crear los prefabs
-                CrearModelos3D(file);
-            }
+                foreach (string file in files)
+                {
+                    // Llamar a la función para crear los prefabs
+                    CrearModelos3D(file);
+                }
+            
+            
         }
         else
         {
@@ -74,7 +81,9 @@ public class CrearModelosFD : MonoBehaviour
         if(prefab_Arbol != null)
         {
             ARGeospatialCreatorAnchor anchorComponent = prefab_Arbol.GetComponent<ARGeospatialCreatorAnchor>();
-            Instantiate(prefab_Arbol);
+            GameObject nuevaInstancia = Instantiate(prefab_Arbol);
+            nuevaInstancia.SetActive(true);
+            InstanciasPrefabs.Add(nuevaInstancia);
             if(anchorComponent != null )
             {
                 anchorComponent.Latitude = latitud;

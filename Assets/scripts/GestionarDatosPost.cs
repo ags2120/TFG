@@ -6,9 +6,8 @@ using UnityEngine;
 using System.Globalization;
 using Newtonsoft.Json.Linq;
 using System;
-//using System.Text.Json;
-//using System.Text.Json.Nodes;
-//using Palmmedia.ReportGenerator.Core.Common;
+using UnityEngine.Windows;
+
 
 
 [System.Serializable]
@@ -28,18 +27,28 @@ public class postData
 
     }
 }
-    public class GestionarDatosPost : MonoBehaviour
+public class GestionarDatosPost : MonoBehaviour
+{
+    //public string jsonFileName = "post.json";
+    public CrearModelosFD modelos;
+    private void Start()
     {
-        public string jsonFileName = "post.json";
-        private void Start()
+        eliminarAntiguos();
+        eliminarPosts();
+        EliminarModelos();
+        //modelos = FindObjectOfType<CrearModelosFD>();
+
+    }
+    private void DesglosarJSON(string nombre)
+    {
+       
+        // Obtener la ruta completa del archivo JSON
+        string jsonFilePath = Path.Combine(Application.persistentDataPath + "/posts", nombre);
+
+        // Verificar si el archivo existe
+        if (System.IO.File.Exists(jsonFilePath))
         {
-            // Obtener la ruta completa del archivo JSON
-            string jsonFilePath = Path.Combine(Application.persistentDataPath, jsonFileName);
-            
-            // Verificar si el archivo existe
-            if (File.Exists(jsonFilePath))
-            {
-            string jsonContent = File.ReadAllText(jsonFilePath);
+            string jsonContent = System.IO.File.ReadAllText(jsonFilePath);
             JObject jsonObject = JObject.Parse(jsonContent);
 
             // Obtener el array "values"
@@ -78,24 +87,80 @@ public class postData
                 string groupedJsonString = groupedJson.ToString();
 
                 // Guardar la cadena JSON en un archivo separado
-                string directoryPath = Path.Combine(Application.persistentDataPath, "post");
-                if (!Directory.Exists(directoryPath))
+                string directoryPath = Path.Combine(Application.persistentDataPath, "fuentes_datos_separadas/");
+                if (!System.IO.Directory.Exists(directoryPath))
                 {
-                    
-                    Directory.CreateDirectory(directoryPath);
+
+                    System.IO.Directory.CreateDirectory(directoryPath);
                 }
                 string groupedJsonFilePath = Path.Combine(directoryPath, "json_" + uid + ".json");
-                File.WriteAllText(groupedJsonFilePath, groupedJsonString);
+                System.IO.File.WriteAllText(groupedJsonFilePath, groupedJsonString);
 
                 Debug.Log("Archivo JSON creado para uid " + uid + " en: " + groupedJsonFilePath);
             }
 
         }
-            else
-            {
-                Debug.LogError("El archivo JSON no se encontró en: " + jsonFilePath);
-            }
-
+        else
+        {
+            Debug.LogError("El archivo JSON no se encontró en: " + jsonFilePath);
         }
     }
+    public void ComprobarArchivos()
+    {
+        string carpeta = Application.persistentDataPath + "/posts";
+        // Obtener la lista de archivos en la carpeta
+        string[] archivos = System.IO.Directory.GetFiles(carpeta, "*.json");
+
+        // Iterar sobre cada archivo JSON y realizar una acción
+        foreach (string archivo in archivos)
+        {
+            string nombreArchivo = Path.GetFileName(archivo);
+            // Realizar la acción con el archivo JSON
+            DesglosarJSON(nombreArchivo);
+        }
+    }
+    public void eliminarAntiguos()
+    {
+        string directorioRuta = Application.persistentDataPath + "/fuentes_datos_separadas";
+        DirectoryInfo directorio = new DirectoryInfo(directorioRuta);
+        
+        if (System.IO.Directory.Exists(directorioRuta))
+        {
+            foreach (FileInfo archivo in directorio.GetFiles())
+            {
+                archivo.Delete();
+            }
+            foreach (DirectoryInfo subDirectorio in directorio.GetDirectories())
+            {
+                subDirectorio.Delete(true);
+            }
+        }
+    }
+    public void eliminarPosts()
+    {
+        string directorioPost = Application.persistentDataPath + "/posts";
+        DirectoryInfo directoryPost = new DirectoryInfo(directorioPost);
+        if (System.IO.Directory.Exists(directorioPost))
+        {
+            foreach (FileInfo archivo in directoryPost.GetFiles())
+            {
+                archivo.Delete();
+            }
+            foreach (DirectoryInfo subDirectorio in directoryPost.GetDirectories())
+            {
+                subDirectorio.Delete(true);
+            }
+        }
+    }
+    public void EliminarModelos()
+    {
+        for (int i = 0; i < modelos.InstanciasPrefabs.Count; i++)
+        {
+            Destroy(modelos.InstanciasPrefabs[i]); // Destruir cada instancia en la lista
+        }
+
+        modelos.InstanciasPrefabs.Clear(); // Limpiar la lista después de destruir todas las instancias
+    }
+
+}
 

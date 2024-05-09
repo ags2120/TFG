@@ -81,6 +81,7 @@ public class GuardarFD : MonoBehaviour
         }
         else
         {
+            ListaFuentesDatos.Clear();
             Debug.LogWarning("El archivo JSON no existe. No se han cargado datos.");
         }
     }

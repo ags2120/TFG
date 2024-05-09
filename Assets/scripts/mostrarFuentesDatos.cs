@@ -47,7 +47,7 @@ public class mostrarFuentesDatos : MonoBehaviour
                 }
                 else
                 {
-
+                    //panelFuente.SetActive(false);
                     CrearInstancia(i);
                        
                 }
@@ -58,6 +58,7 @@ public class mostrarFuentesDatos : MonoBehaviour
         }
         else
         {
+            panelFuente.SetActive(false);
             Debug.Log("No hay fuentes de datos.");
         }
         comprobarActivas();

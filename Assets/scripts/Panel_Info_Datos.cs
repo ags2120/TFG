@@ -32,7 +32,7 @@ public class Panel_Info_Datos : MonoBehaviour
     }
     public void Create_Instance_Panel(string uid_prefab)
     {
-        string file = Application.persistentDataPath + "/post_pruebas/json_" + uid_prefab + ".json";
+        string file = Application.persistentDataPath + "/fuentes_datos_separadas/json_" + uid_prefab + ".json";
         string jsonContent = File.ReadAllText(file);
         JObject jsonObject = JObject.Parse(jsonContent);
         // Obtener el array "data"
