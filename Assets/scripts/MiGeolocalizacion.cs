@@ -14,7 +14,7 @@ public class MiGeolocalizacion : MonoBehaviour
     public ARSession arSession;
     public AREarthManager EarthManager;
     public GameObject InfoPanel;
-    public Text InfoText, horaAc,elementos,distanciaDetec,tiempo,distanciaRefresco,estadoGeo;
+    public Text InfoText, horaAc,elementos,distanciaDetec,tiempo,distanciaRefresco,estadoGeo,tiempoActualizacion,numeroModelos,prueba;
     private IEnumerator _startLocationService = null;
     private bool _waitingForLocationService = false;
     public GeospatialPose pose, poseIni;
@@ -22,11 +22,14 @@ public class MiGeolocalizacion : MonoBehaviour
     private bool primeraPose = true;
     private slide_metros valorMetros;
     private float distance,metrosRefresco;
+    public slides_peticion sliderRefresco;
+    private CrearModelosFD prefabs;
     void Start()
     {
 
         
         valorMetros = FindObjectOfType<slide_metros>();
+        prefabs = FindObjectOfType<CrearModelosFD>();
 
     }
     public void OnEnable()
@@ -38,12 +41,18 @@ public class MiGeolocalizacion : MonoBehaviour
 
     void Update()
     {
+        
+         
+        int tiempo = sliderRefresco.tiempoTranscurridoEntero;
+        
+        
         bool isSessionReady = ARSession.state == ARSessionState.SessionTracking &&
                Input.location.status == LocationServiceStatus.Running;
         var earthTrackingState = EarthManager.EarthTrackingState;
         pose = earthTrackingState == TrackingState.Tracking ?
             EarthManager.CameraGeospatialPose : new GeospatialPose();
         //InfoPanel.SetActive(true);
+        
         if (earthTrackingState == TrackingState.Tracking)
         {
             if (primeraPose)
@@ -72,7 +81,8 @@ public class MiGeolocalizacion : MonoBehaviour
             latitud = pose.Latitude.ToString("F5");
             longitud = pose.Longitude.ToString("F5");
             estadoGeo.text = "Posición GeoEspacial cogida correctamente";
-            distanciaRefresco.text = "Se han recorrido: " + distance.ToString("F1") + " de " + metrosRefresco + " metros para refrescar";
+            distanciaRefresco.text = "Se han recorrido: " + distance.ToString("F1") + " de " + metrosRefresco + " metros para actualizar";
+            tiempoActualizacion.text = "Actualización de datos: " + sliderRefresco.tiempoTranscurridoEntero + " seg. de "+ sliderRefresco.sliderRefresco.value + " mins. para actualizar";
 
         }
         else
@@ -83,10 +93,11 @@ public class MiGeolocalizacion : MonoBehaviour
     }
     public void ShowDatosPost(string hora, int num_elementos, float distancia, float minutos)
     {
-        horaAc.text = "Ultima petición: "+hora.ToString() + " (hh/mmm/ss)";
+        horaAc.text = "Ultima petición: "+hora.ToString() + " (hh/mm/ss)";
         elementos.text = "Elementos Recuperados: "+num_elementos.ToString() + " elementos";
         distanciaDetec.text = "Distancia de Detección: "+distancia.ToString() + " m";
-        tiempo .text= "Tiempo de Antigüedad: " + minutos.ToString() + " mins";
+        tiempo.text= "Tiempo de Antigüedad: " + minutos.ToString() + " mins";
+        //numeroModelos.text = "Modelos creados actualmente: " + prefabs.InstanciasPrefabs.Count;
        
         
     }
@@ -182,6 +193,9 @@ public class MiGeolocalizacion : MonoBehaviour
         return superada;
     }
     
-    
+    public void mostrarError(string mensaje)
+    {
+        prueba.text = mensaje;
+    }
 
 }

@@ -17,16 +17,17 @@ public class mostrarFuentesDatos : MonoBehaviour
     public TextMeshProUGUI nombreFuente, activas_totales;
     public RawImage imagen;
     public Button eliminar;
-   // private RawImage[] imagenes;
-    
+    // private RawImage[] imagenes;
+    private float altoAcumulado, anchoAcumulado;
     private GuardarFD fuentes;
     // Start is called before the first frame update
     void Start()
     {
         string path = Application.persistentDataPath + "/FuentesDatos.json";
         fuentes = FindObjectOfType<GuardarFD>();
+        altoAcumulado = panelFuente.GetComponent<RectTransform>().anchoredPosition.y;
+        anchoAcumulado = panelFuente.GetComponent<RectTransform>().anchoredPosition.x;
 
-        
         if (File.Exists(path))
         {
             
@@ -89,7 +90,8 @@ public class mostrarFuentesDatos : MonoBehaviour
         comprobarActivas();
         mostrarInactivas(i,imagen, nombreFuente);
         paneles.Add(nuevoPanel);
-
+        //Agrandar el container
+       
     }
     public Texture2D MostraImagen(int i)
     {
@@ -158,5 +160,6 @@ public class mostrarFuentesDatos : MonoBehaviour
         comprobarActivas();
         
     }
+    
     
 }

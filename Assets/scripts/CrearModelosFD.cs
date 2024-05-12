@@ -14,14 +14,20 @@ public class CrearModelosFD : MonoBehaviour
 {
     //******************Cambiar a post normal cuando acabe las pruebas***********************
     string folderName = "fuentes_datos_separadas";
-    public GameObject prefab_Arbol;
+    public List<GameObject> modelos_base;
     private TocarPrefab tocarPrefab;
     public List<GameObject> InstanciasPrefabs = new List<GameObject>();
+   
     // Start is called before the first frame update
     void Start()
     {
         tocarPrefab = FindObjectOfType<TocarPrefab>();
-        prefab_Arbol.SetActive(false);
+        foreach (GameObject modelo in modelos_base)
+        {
+            modelo.SetActive(false);
+        }
+        
+          
         //ComprobarJSON();
        
     }
@@ -53,6 +59,7 @@ public class CrearModelosFD : MonoBehaviour
         }
         else
         {
+            
             Debug.LogWarning("La carpeta " + folderName + " no existe en PersistentDataPath.");
         }
     }
@@ -72,16 +79,21 @@ public class CrearModelosFD : MonoBehaviour
                 tocarPrefab.uid = uid;
                 float latitud = (float)primerDato[6];
                 float longitud = (float)primerDato[7];
+                int modelo = (int)primerDato[14];
                 createInstancePrefab(latitud, longitud);
             }
+            
         }
+       
     }
     private void createInstancePrefab(float latitud, float longitud)
     {
-        if(prefab_Arbol != null)
+        /********************CAMBIAR A MODELOS_BASE[MODELO]*************************/
+        if(modelos_base[0] != null)
         {
-            ARGeospatialCreatorAnchor anchorComponent = prefab_Arbol.GetComponent<ARGeospatialCreatorAnchor>();
-            GameObject nuevaInstancia = Instantiate(prefab_Arbol);
+
+            ARGeospatialCreatorAnchor anchorComponent = modelos_base[0].GetComponent<ARGeospatialCreatorAnchor>();
+            GameObject nuevaInstancia = Instantiate(modelos_base[0]);
             nuevaInstancia.SetActive(true);
             InstanciasPrefabs.Add(nuevaInstancia);
             if(anchorComponent != null )
@@ -90,5 +102,7 @@ public class CrearModelosFD : MonoBehaviour
                 anchorComponent.Longitude = longitud;
             }
         }
+        
     }
+    
 }

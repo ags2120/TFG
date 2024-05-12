@@ -1,17 +1,19 @@
 
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
-//                                                          POST
-//  0      1      2       3         4           5     6     7      8        9               10              11          12          13
-//"time","uid","value","metric","typemeter","alias","lat","lon","cota","description","description_origin","name","organizationid","origin"
+//                                                          POST                                                                           este último lo añado yo despues del post
+//  0      1      2       3         4           5     6     7      8        9               10              11          12          13         14
+//"time","uid","value","metric","typemeter","alias","lat","lon","cota","description","description_origin","name","organizationid","origin","modelo3D"
 
 public class ClienteAPI : MonoBehaviour
 {
@@ -31,7 +33,7 @@ public class ClienteAPI : MonoBehaviour
     private GuardarFD fuentes;
     private string latitud, longitud;
     private GestionarDatosPost gestionarPost;
-
+    private CrearModelosFD modelos;
 
     void Start()
     {
@@ -41,6 +43,7 @@ public class ClienteAPI : MonoBehaviour
         geo = FindObjectOfType<MiGeolocalizacion>();
         fuentes = FindObjectOfType<GuardarFD>();
         gestionarPost = FindObjectOfType<GestionarDatosPost>();
+        modelos = FindObjectOfType<CrearModelosFD>();
 
 
 
@@ -52,6 +55,10 @@ public class ClienteAPI : MonoBehaviour
     public void MakeAPIRequestPOST()
     {
         StartCoroutine(SendRequestPOST());
+    }
+    public void MakeAPIRequestPOSTPC()
+    {
+        StartCoroutine(SendRequestPOSTPC());
     }
     IEnumerator SendRequestGET()
     {
@@ -147,7 +154,7 @@ public class ClienteAPI : MonoBehaviour
 
                         // Reemplaza las comas con comas seguidas de un salto de línea
                         jsonResponse = jsonResponse.Replace("],", "],\n");
-
+                       
                         Debug.Log("Response: " + request.downloadHandler.text);
                         // Aquí puedes procesar los datos devueltos
                         string directoryPath = Application.persistentDataPath + "/posts";
@@ -157,6 +164,7 @@ public class ClienteAPI : MonoBehaviour
                             Directory.CreateDirectory(directoryPath);
                         }
                         string filePath = Application.persistentDataPath + "/posts/post" + fuentes.ListaFuentesDatos[i].nombre + ".json";
+                        jsonResponse = anyadirDatoJson(jsonResponse, fuentes.ListaFuentesDatos[i].imagen);
                         System.IO.File.WriteAllText(filePath, jsonResponse);
                         MostrarDatosPost(jsonResponse);
                         
@@ -168,6 +176,7 @@ public class ClienteAPI : MonoBehaviour
         }
         //Desglosamos el post en los json distintos para mostrar su información posteriormente
         gestionarPost.ComprobarArchivos();
+        modelos.ComprobarJSON();
 
     }
     public void MostrarDatosPost(string json)
@@ -175,6 +184,105 @@ public class ClienteAPI : MonoBehaviour
         JObject jsonObject = JObject.Parse(json);
         JArray valuesArray = (JArray)jsonObject["result"]["values"];
         geo.ShowDatosPost(fecha.hora, valuesArray.Count(), valorMetros.slider.value, sliderMinutos.value);
+    }
+    IEnumerator SendRequestPOSTPC()
+    {
+
+        string valor = (valorMetros.slider.value / 1000).ToString();
+        string valorfin = valor.Replace(",", ".");
+        //latitud = geo.getLatitud().Replace(",", ".");
+       // longitud = geo.getLongitud().Replace(",", ".");
+        //Debug.Log("El valor del Slide es:" + valor);
+        WWWForm form = new WWWForm();
+
+        form.AddField("time_start", fecha.time_start);
+        form.AddField("time_end", fecha.time_end);
+        form.AddField("geo_position[lat]", "38.57042");
+        form.AddField("geo_position[lon]", "-0.12439");
+        form.AddField("geo_position[radius_km]", valorfin);
+        form.AddField("limit", "100");
+        form.AddField("count", "false");
+        /*
+                form.AddField("geo_position[lat]", "38.38739"); 38.57042 --> mi casa
+                form.AddField("geo_position[lon]", "-0.51232"); -0.12439 -->
+        */
+        for (int i = 0; i < fuentes.ListaFuentesDatos.Count; i++)
+        {
+            if (fuentes.ListaFuentesDatos[i].activo == true)
+            {
+                Debug.Log("entro " + i);
+                string urlWithToken = apiUrlPost + fuentes.ListaFuentesDatos[i].token;
+
+                using (UnityWebRequest request = UnityWebRequest.Post(urlWithToken, form))
+                {
+
+                    yield return request.SendWebRequest();
+
+                    // Maneja la respuesta
+                    if (request.result != UnityWebRequest.Result.Success)
+                    {
+                        Debug.LogError("Error: " + request.error);
+                    }
+                    else
+                    {
+                        string jsonResponse = request.downloadHandler.text;
+
+                        // Reemplaza las comas con comas seguidas de un salto de línea
+                        jsonResponse = jsonResponse.Replace("],", "],\n");
+                        
+                        Debug.Log("Response: " + request.downloadHandler.text);
+                        // Aquí puedes procesar los datos devueltos
+                        string directoryPath = Application.persistentDataPath + "/posts";
+                        if (!Directory.Exists(directoryPath))
+                        {
+
+                            Directory.CreateDirectory(directoryPath);
+                        }
+                        string filePath = Application.persistentDataPath + "/posts/post" + fuentes.ListaFuentesDatos[i].nombre + ".json";
+                        jsonResponse = anyadirDatoJson(jsonResponse, fuentes.ListaFuentesDatos[i].imagen);
+                        System.IO.File.WriteAllText(filePath, jsonResponse);
+                        MostrarDatosPost(jsonResponse);
+
+                        Debug.Log("Response saved to: " + filePath);
+                    }
+                }
+            }
+
+        }
+        //Desglosamos el post en los json distintos para mostrar su información posteriormente
+        gestionarPost.ComprobarArchivos();
+        modelos.ComprobarJSON();
+
+    }
+
+    private string anyadirDatoJson(string json, int i)
+    {
+        JObject jsonObject = JObject.Parse(json);
+        /*jsonObject.Add("modelo", 0);*/
+       
+        if (jsonObject["result"] != null && jsonObject["result"]["columns"] != null)
+        {
+            // Accedemos a la estructura jsonObject["result"]["values"]
+            JArray valuesObject = (JArray)jsonObject["result"]["columns"];
+
+            // Agregamos la nueva propiedad "modelo" con valor 0 dentro de jsonObject["result"]["values"]
+            valuesObject.Add("modelo3D");
+        }
+        if (jsonObject["result"] != null && jsonObject["result"]["values"] != null)
+        {
+            // Accedemos a la estructura jsonObject["result"]["values"]
+            JArray valuesObject = (JArray)jsonObject["result"]["values"];
+            foreach (JArray value in valuesObject) {
+
+
+                value.Add(i);
+            }
+            
+            
+        }
+
+        string jsonResult = jsonObject.ToString(); 
+        return jsonResult;
     }
 }
 

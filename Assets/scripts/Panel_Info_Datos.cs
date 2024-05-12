@@ -53,7 +53,7 @@ public class Panel_Info_Datos : MonoBehaviour
                 modificarPanel(description_origin,time,uid, alias, valor, metric,description,organizationID);
             }
 
-            
+            paneles.Reverse();
 
         }
         else

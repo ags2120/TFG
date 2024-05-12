@@ -75,7 +75,7 @@ public class DragMenu : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
         {
             // Realiza otra acción si la distancia movida es menor o igual que la distancia mínima
             UnityEngine.Debug.Log("No escondo menú.");
-            menuTransform.anchoredPosition = initialMenuPosition;
+            menuTransform.anchoredPosition= initialMenuPosition;
             desple.menuAbierto = false;
 
         }

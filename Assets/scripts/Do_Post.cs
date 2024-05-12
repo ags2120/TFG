@@ -32,11 +32,11 @@ public class Do_Post : MonoBehaviour
     {
         gestionar.EliminarModelos();
         gestionar.eliminarPosts();
-        /*******************EL FALLO ES AQUÍ*********************/
-       // gestionar.eliminarAntiguos();
-        
+        gestionar.eliminarAntiguos();
+        //api.MakeAPIRequestPOSTPC();
         api.MakeAPIRequestPOST();
-        modelos.ComprobarJSON();
+
+
     }
 
 }

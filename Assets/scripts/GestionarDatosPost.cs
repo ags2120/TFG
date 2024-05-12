@@ -39,7 +39,7 @@ public class GestionarDatosPost : MonoBehaviour
         //modelos = FindObjectOfType<CrearModelosFD>();
 
     }
-    private void DesglosarJSON(string nombre)
+    private void DesglosarJSON(string nombre,int modelo)
     {
        
         // Obtener la ruta completa del archivo JSON
@@ -50,7 +50,7 @@ public class GestionarDatosPost : MonoBehaviour
         {
             string jsonContent = System.IO.File.ReadAllText(jsonFilePath);
             JObject jsonObject = JObject.Parse(jsonContent);
-
+          
             // Obtener el array "values"
             JArray valuesArray = (JArray)jsonObject["result"]["values"];
 
@@ -60,7 +60,7 @@ public class GestionarDatosPost : MonoBehaviour
             foreach (JToken value in valuesArray)
             {
                 string uid = value[1].ToString(); // Obtener el uid
-
+                
                 // Verificar si el uid ya existe en el diccionario
                 if (!groupedData.ContainsKey(uid))
                 {
@@ -70,6 +70,7 @@ public class GestionarDatosPost : MonoBehaviour
 
                 // Agregar el valor actual a la lista correspondiente al uid
                 groupedData[uid].Add(value);
+                
             }
 
             // Crear un archivo JSON separado para cada grupo de datos
@@ -99,6 +100,7 @@ public class GestionarDatosPost : MonoBehaviour
                 Debug.Log("Archivo JSON creado para uid " + uid + " en: " + groupedJsonFilePath);
             }
 
+
         }
         else
         {
@@ -114,10 +116,12 @@ public class GestionarDatosPost : MonoBehaviour
         // Iterar sobre cada archivo JSON y realizar una acción
         foreach (string archivo in archivos)
         {
+            int modelo = GetImage(archivo);
             string nombreArchivo = Path.GetFileName(archivo);
             // Realizar la acción con el archivo JSON
-            DesglosarJSON(nombreArchivo);
+            DesglosarJSON(nombreArchivo,modelo);
         }
+        //modelos.ComprobarJSON();
     }
     public void eliminarAntiguos()
     {
@@ -160,6 +164,16 @@ public class GestionarDatosPost : MonoBehaviour
         }
 
         modelos.InstanciasPrefabs.Clear(); // Limpiar la lista después de destruir todas las instancias
+    }
+    private int GetImage(string fileName)
+    {
+        int num = 0;
+        string[] parts = fileName.Split(new string[] { "post" }, StringSplitOptions.None);
+        if (parts.Length == 2)
+        { 
+        num = int.Parse(parts[0]);
+        }
+            return num;
     }
 
 }
