@@ -15,18 +15,19 @@ public class CrearModelosFD : MonoBehaviour
     //******************Cambiar a post normal cuando acabe las pruebas***********************
     string folderName = "fuentes_datos_separadas";
     public List<GameObject> modelos_base;
-    private TocarPrefab tocarPrefab;
+    public List<TocarPrefab> tocarPrefab;
     public List<GameObject> InstanciasPrefabs = new List<GameObject>();
+    
    
     // Start is called before the first frame update
     void Start()
     {
-        tocarPrefab = FindObjectOfType<TocarPrefab>();
+       //tocarPrefab = FindObjectOfType<TocarPrefab>();
         foreach (GameObject modelo in modelos_base)
         {
             modelo.SetActive(false);
         }
-        
+        //uid_mod = GetComponent<uid_modelos>();
           
         //ComprobarJSON();
        
@@ -76,30 +77,34 @@ public class CrearModelosFD : MonoBehaviour
 
             if(primerDato.Count >= 8 ) { 
                 string uid = primerDato[1].ToString();
-                tocarPrefab.uid = uid;
+                foreach (TocarPrefab script in tocarPrefab)
+                {
+                    script.uid = uid;
+                }
                 float latitud = (float)primerDato[6];
                 float longitud = (float)primerDato[7];
                 int modelo = (int)primerDato[14];
-                createInstancePrefab(latitud, longitud);
+                createInstancePrefab(latitud, longitud, modelo,uid);
             }
             
         }
        
     }
-    private void createInstancePrefab(float latitud, float longitud)
+    private void createInstancePrefab(float latitud, float longitud,int modelo,string uid)
     {
-        /********************CAMBIAR A MODELOS_BASE[MODELO]*************************/
-        if(modelos_base[0] != null)
+        
+        if(modelos_base[modelo] != null)
         {
 
-            ARGeospatialCreatorAnchor anchorComponent = modelos_base[0].GetComponent<ARGeospatialCreatorAnchor>();
-            GameObject nuevaInstancia = Instantiate(modelos_base[0]);
+            ARGeospatialCreatorAnchor anchorComponent = modelos_base[modelo].GetComponent<ARGeospatialCreatorAnchor>();
+            GameObject nuevaInstancia = Instantiate(modelos_base[modelo]);
             nuevaInstancia.SetActive(true);
             InstanciasPrefabs.Add(nuevaInstancia);
             if(anchorComponent != null )
             {
                 anchorComponent.Latitude = latitud;
                 anchorComponent.Longitude = longitud;
+              //tocarPrefab.uid = uid;
             }
         }
         

@@ -20,6 +20,7 @@ public class GuardarFD : MonoBehaviour
     public TMP_Dropdown dropdown;
     private string numImage;
     private Mensaje mensaje;
+    private Do_Post post;
     private mostrarFuentesDatos mostrarFD;
     public bool NombreRegistrado = false, TokenRegistrado = false, vacio = false;
     
@@ -28,6 +29,7 @@ public class GuardarFD : MonoBehaviour
         CargarDatosDesdeJSON();
         mensaje = FindObjectOfType<Mensaje>();
         mostrarFD = FindObjectOfType<mostrarFuentesDatos>();
+        post = FindObjectOfType<Do_Post>();
         //iconos.onValueChanged.AddListener(OnDropdownValueChanged);
        
     }
@@ -67,6 +69,7 @@ public class GuardarFD : MonoBehaviour
             GenerarJSON();
             mostrarFD.CrearInstancia(size);
             mensaje.GuardadoCorrectamente();
+            post.hacerPost();
         }
         
     }

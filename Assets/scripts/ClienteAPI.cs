@@ -43,7 +43,7 @@ public class ClienteAPI : MonoBehaviour
         geo = FindObjectOfType<MiGeolocalizacion>();
         fuentes = FindObjectOfType<GuardarFD>();
         gestionarPost = FindObjectOfType<GestionarDatosPost>();
-        modelos = FindObjectOfType<CrearModelosFD>();
+        modelos = GetComponent<CrearModelosFD>();
 
 
 
@@ -197,8 +197,8 @@ public class ClienteAPI : MonoBehaviour
 
         form.AddField("time_start", fecha.time_start);
         form.AddField("time_end", fecha.time_end);
-        form.AddField("geo_position[lat]", "38.57042");
-        form.AddField("geo_position[lon]", "-0.12439");
+        form.AddField("geo_position[lat]", "38.38739");
+        form.AddField("geo_position[lon]", "-0.51232");
         form.AddField("geo_position[radius_km]", valorfin);
         form.AddField("limit", "100");
         form.AddField("count", "false");

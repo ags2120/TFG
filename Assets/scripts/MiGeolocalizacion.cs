@@ -63,7 +63,7 @@ public class MiGeolocalizacion : MonoBehaviour
             //calcularDistancias();
             //Debug.Log("entro al if");
             InfoText.text = string.Format(
-            "GPS INFORMATION:\n" +
+            "GPS INFORMATION:\n\n" +
             "Latitude/Longitude: {1}°, {2}°{0}" +
             "Horizontal Accuracy: {3}m{0}" +
             "Altitude: {4}m{0}" +

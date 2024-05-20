@@ -15,12 +15,14 @@ public class TocarPrefab : MonoBehaviour
     private Mensaje mensaje;
     private Panel_Info_Datos info;
     private Desplegable desple;
+    //private uid_modelos uid;
     
     
     bool touchDetected = false;
     // Start is called before the first frame update
     void Start()
     {
+       // uid = GetComponent<uid_modelos>();
         mensaje = FindObjectOfType<Mensaje>();
         info = FindObjectOfType<Panel_Info_Datos>();
         desple = FindObjectOfType<Desplegable>();   
@@ -40,13 +42,8 @@ public class TocarPrefab : MonoBehaviour
                 {
                     touchDetected = true;
 
-
                     Ray ray = Camera.main.ScreenPointToRay(Input.GetTouch(0).position);
                     RaycastHit[] hits;
-
-
-
-
 
                     // Realizar el raycast y obtener todos los objetos que colisionan
                     hits = Physics.RaycastAll(ray);
@@ -55,12 +52,9 @@ public class TocarPrefab : MonoBehaviour
                     GameObject closestObject = null;
                     float closestDistance = Mathf.Infinity;
 
-
-
                     // Iterar sobre todos los objetos que colisionan con el rayo
                     foreach (RaycastHit hit in hits)
                     {
-
                         // Verificar si el collider pertenece a este objeto
                         if (hit.collider.gameObject == gameObject)
                         {
@@ -82,8 +76,7 @@ public class TocarPrefab : MonoBehaviour
                         // Realizar las acciones que deseas con el objeto más cercano
                         info.Create_Instance_Panel(uid);
                         info.MostrarPanelActual();
-                        // Ocultar el prefab
-                        // mensaje.EditadoCorrectamente();
+
                     }
                 }
                     

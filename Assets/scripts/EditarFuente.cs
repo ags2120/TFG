@@ -11,6 +11,7 @@ public class EditarFuente : MonoBehaviour
 {
     private GuardarFD fuentes;
     private mostrarFuentesDatos mostrarFD;
+    private Do_Post post;
     private Mensaje msj;
     public TMP_InputField nombreFuente = null, tokenFuente = null;
     private string nombreAntiguo;
@@ -23,6 +24,7 @@ public class EditarFuente : MonoBehaviour
     {
         fuentes = FindObjectOfType<GuardarFD>();
         mostrarFD = FindObjectOfType<mostrarFuentesDatos>();
+        post = FindObjectOfType<Do_Post>();
         msj = FindObjectOfType<Mensaje>();  
        
     }
@@ -91,6 +93,7 @@ public class EditarFuente : MonoBehaviour
                     fuentes.GenerarJSON();
                     
                     msj.EditadoCorrectamente();
+                    post.hacerPost();
 
                 }
             }

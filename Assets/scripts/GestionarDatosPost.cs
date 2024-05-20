@@ -121,7 +121,7 @@ public class GestionarDatosPost : MonoBehaviour
             // Realizar la acción con el archivo JSON
             DesglosarJSON(nombreArchivo,modelo);
         }
-        //modelos.ComprobarJSON();
+        
     }
     public void eliminarAntiguos()
     {
