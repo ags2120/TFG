@@ -13,6 +13,7 @@ public class slide_minutos : MonoBehaviour
     void Start()
     {
         slider.onValueChanged.AddListener(delegate { OnSliderValueChanged(); });
+        OnSliderValueChanged();
     }
 
     // Update is called once per frame

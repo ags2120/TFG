@@ -15,7 +15,8 @@ public class Mensaje : MonoBehaviour
     public GameObject panelADesactivar;
     public RawImage img_mostrada;
     public Texture[] text_img;
-    public Button boton_eliminar,boton_cancelar_aceptar;
+    public Button boton_eliminar,boton_cancelar_aceptar,botonAceptar;
+    private navegador nav;
 
     private string azul = "#008BFF",verde = "#3F7F00";
     //Mensaje eliminar Fuente
@@ -30,10 +31,15 @@ public class Mensaje : MonoBehaviour
     private string editadoCorrecto = "Fuente Editada Correctamente";
 
     private string NombreEditadoIncorrecto = "El nombre que desea poner ya pertenece a otra Fuente de Datos";
+
+    private string limiteIncorrecto = "El Límite debe ser igual o mayor a 100";
+
+    private string antiguedadIncorrecta = "El número de minutos debe estar comprendido entre 1 y 1500";
     public void Start()
     {
        
         elimFuent = FindObjectOfType<EliminarFuente>();
+        nav = FindObjectOfType<navegador>();
     }
     public void mostrarMensaje(string mensaje)
     {
@@ -52,49 +58,79 @@ public class Mensaje : MonoBehaviour
         panelMensaje.SetActive(false);
         elimFuent.EliminarFuenteDatos(parentElim);
         Desactivar_Activar_InteraccionPanel(true);
+        
 
     }
     public void onClickCancelarEliminacion()
     {
         panelMensaje.SetActive(false);
         Desactivar_Activar_InteraccionPanel(true);
+        nav.navegateToFuentesDatos();
 
+    }
+    public void onClickAceptar()
+    {
+        panelMensaje.SetActive(false);
+        Desactivar_Activar_InteraccionPanel(true);
     }
     public void EliminarFuente(GameObject parent)
     {
         parentElim = parent;
         mostrarMensaje(mensajeEliminarFuente);
         boton_eliminar.gameObject.SetActive(true);
+        botonAceptar.gameObject.SetActive(false);
         setImageAndButton(azul, "Cancelar", 0);
     }
     public void NombreOrTokenRepetido()
     {
         mostrarMensaje(mensajeNombreToken);
         boton_eliminar.gameObject.SetActive(false);
+        botonAceptar.gameObject.SetActive(true);
+        boton_cancelar_aceptar.gameObject.SetActive(false);
         setImageAndButton(azul,"Aceptar",0);
     }
     public void CampoVacio()
     {
        mostrarMensaje(mensajeVacio);
        boton_eliminar.gameObject.SetActive(false);
-       setImageAndButton(azul, "Aceptar", 0);
+       botonAceptar.gameObject.SetActive(true);
+       boton_cancelar_aceptar.gameObject.SetActive(false);
+        //setImageAndButton(azul, "Aceptar", 0);
     }
     public void GuardadoCorrectamente()
     {
         mostrarMensaje(guardadoCorrecto);
         boton_eliminar.gameObject.SetActive(false);
+        botonAceptar.gameObject.SetActive(false);
         setImageAndButton(verde, "Aceptar", 1);
     }
     public void EditadoCorrectamente()
     {
         mostrarMensaje(editadoCorrecto);
         boton_eliminar.gameObject.SetActive(false);
+        botonAceptar.gameObject.SetActive(false);
         setImageAndButton(verde, "Aceptar", 1);
+    }
+    public void LimiteInvalido()
+    {
+        mostrarMensaje(limiteIncorrecto);
+        boton_eliminar.gameObject.SetActive(false);
+        boton_cancelar_aceptar.gameObject.SetActive(false);
+        setImageAndButton(azul, "Aceptar", 0);
+    }
+    public void AntiguedadInvalida()
+    {
+        mostrarMensaje(antiguedadIncorrecta);
+        boton_eliminar.gameObject.SetActive(false);
+        boton_cancelar_aceptar.gameObject.SetActive(false);
+        setImageAndButton(azul, "Aceptar", 0);
     }
     public void EditadoIncorrecto()
     {
         mostrarMensaje(NombreEditadoIncorrecto);
         boton_eliminar.gameObject.SetActive(false);
+        botonAceptar.gameObject.SetActive(true);
+        boton_cancelar_aceptar.gameObject.SetActive(false );
         setImageAndButton(azul, "Aceptar", 0);
     }
    

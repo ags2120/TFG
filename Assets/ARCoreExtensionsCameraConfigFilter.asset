@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: ARCoreExtensionsCameraConfigFilter
   m_EditorClassIdentifier: 
   TargetCameraFramerate: 3
-  DepthSensorUsage: 3
+  DepthSensorUsage: 2
   StereoCameraUsage: 3

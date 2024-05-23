@@ -9,6 +9,7 @@ public class Do_Post : MonoBehaviour
     private MiGeolocalizacion geo;
     private CrearModelosFD modelos;
     private ClienteAPI api;
+    private GestionarInputs inputs;
     public Slider mins;
     private GestionarDatosPost gestionar;
     void Start()
@@ -17,6 +18,8 @@ public class Do_Post : MonoBehaviour
         api = FindObjectOfType<ClienteAPI>();
         modelos = FindObjectOfType<CrearModelosFD>();
         gestionar = FindObjectOfType<GestionarDatosPost>();
+        inputs = FindObjectOfType<GestionarInputs>();
+
     }
 
     // Update is called once per frame
@@ -30,11 +33,14 @@ public class Do_Post : MonoBehaviour
     }
     public void hacerPost()
     {
-        gestionar.EliminarModelos();
-        gestionar.eliminarPosts();
-        gestionar.eliminarAntiguos();
-        //api.MakeAPIRequestPOSTPC();
-        api.MakeAPIRequestPOST();
+       
+            gestionar.EliminarModelos();
+            gestionar.eliminarPosts();
+            gestionar.eliminarAntiguos();
+            //api.MakeAPIRequestPOSTPC();
+            api.MakeAPIRequestPOST();
+       
+
 
 
     }

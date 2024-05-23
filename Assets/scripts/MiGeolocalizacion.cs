@@ -24,12 +24,16 @@ public class MiGeolocalizacion : MonoBehaviour
     private float distance,metrosRefresco;
     public slides_peticion sliderRefresco;
     private CrearModelosFD prefabs;
+    private bool primerPost;
+    private Do_Post post;
     void Start()
     {
 
         
         valorMetros = FindObjectOfType<slide_metros>();
         prefabs = FindObjectOfType<CrearModelosFD>();
+        post = FindObjectOfType<Do_Post>();
+        primerPost = true;
 
     }
     public void OnEnable()
@@ -60,6 +64,7 @@ public class MiGeolocalizacion : MonoBehaviour
                 poseIni = pose;
                 primeraPose = false;
             }
+            
             //calcularDistancias();
             //Debug.Log("entro al if");
             InfoText.text = string.Format(
@@ -83,6 +88,11 @@ public class MiGeolocalizacion : MonoBehaviour
             estadoGeo.text = "Posición GeoEspacial cogida correctamente";
             distanciaRefresco.text = "Se han recorrido: " + distance.ToString("F1") + " de " + metrosRefresco + " metros para actualizar";
             tiempoActualizacion.text = "Actualización de datos: " + sliderRefresco.tiempoTranscurridoEntero + " seg. de "+ sliderRefresco.sliderRefresco.value + " mins. para actualizar";
+            if (primerPost)
+            {
+                post.hacerPost();
+                primerPost = false;
+            }
 
         }
         else

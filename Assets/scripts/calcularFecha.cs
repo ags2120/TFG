@@ -12,12 +12,12 @@ public class calcularFecha : MonoBehaviour
     public string hora;
     private DateTime currentDate;
     private DateTime restDate;
-    private slide_minutos valorMinutos;
+    private GestionarInputs valorMinutos;
     int estado = 0; // 0 - No he atrasado 1 día // 1- He atrasado 1 día // 2- Vuelvo atrás
     // Start is called before the first frame update
     void Start()
     {
-        valorMinutos = FindObjectOfType<slide_minutos>();
+        valorMinutos = FindObjectOfType<GestionarInputs>();
     }
 
     // Update is called once per frame
@@ -40,7 +40,7 @@ public class calcularFecha : MonoBehaviour
     private void calcularTimeStart()
     {
 
-        float mins = valorMinutos.slider.value;
+        float mins = valorMinutos.antiguedad;
         DateTime fechaRestada = currentDate.AddMinutes(-mins);
         string fechaRes = fechaRestada.ToString("yyyy-MM-dd");
         string horaRes = fechaRestada.ToString("HH:mm:ss");

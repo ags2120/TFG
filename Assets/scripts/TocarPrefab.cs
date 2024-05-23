@@ -75,6 +75,7 @@ public class TocarPrefab : MonoBehaviour
                     {
                         // Realizar las acciones que deseas con el objeto más cercano
                         info.Create_Instance_Panel(uid);
+                        info.SituarUltimoDato();
                         info.MostrarPanelActual();
 
                     }

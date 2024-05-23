@@ -83,6 +83,7 @@ public class Panel_Info_Datos : MonoBehaviour
     public void MostrarPanelActual()
     {
         panelFlechas.SetActive (true);
+        
         if (indiceActual == 0)
         {
             Debug.Log("entro a borrar flecha izquierda");
@@ -117,6 +118,10 @@ public class Panel_Info_Datos : MonoBehaviour
             }
         }
         
+    }
+    public void SituarUltimoDato()
+    {
+        indiceActual = 0;
     }
     public void IrAlSiguientePanel()
     {

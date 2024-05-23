@@ -111,6 +111,16 @@ public class navegador : MonoBehaviour
 
         }
     }
+    public void navegateToFuentesDatos()
+    {
+        panelMenuInicial.SetActive(false);
+        panelNuevaFuente.SetActive(false);
+        panelEditarFuente.SetActive(false);
+
+        panelFuentesDatos.SetActive(true);
+        currentPanel = Panel.panelFuentesDatos;
+        titulo_menu.text = "Fuentes de Datos";
+    }
     public void OnFlechaClick()
     {
         flechaClicked = true;

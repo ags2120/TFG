@@ -60,9 +60,15 @@ public class CrearModelosFD : MonoBehaviour
         }
         else
         {
-            
+           
             Debug.LogWarning("La carpeta " + folderName + " no existe en PersistentDataPath.");
+            crearCarpetaFuentesDatosSeparadas(folderPath);
         }
+    }
+    private void crearCarpetaFuentesDatosSeparadas(string path)
+    {
+        Directory.CreateDirectory(path);
+        ComprobarJSON();
     }
     private void CrearModelos3D(string file)
     {
@@ -98,12 +104,13 @@ public class CrearModelosFD : MonoBehaviour
 
             ARGeospatialCreatorAnchor anchorComponent = modelos_base[modelo].GetComponent<ARGeospatialCreatorAnchor>();
             GameObject nuevaInstancia = Instantiate(modelos_base[modelo]);
+            ARGeospatialCreatorAnchor anchorComponentNuevaInstancia = nuevaInstancia.GetComponent<ARGeospatialCreatorAnchor>();
             nuevaInstancia.SetActive(true);
             InstanciasPrefabs.Add(nuevaInstancia);
             if(anchorComponent != null )
             {
-                anchorComponent.Latitude = latitud;
-                anchorComponent.Longitude = longitud;
+                anchorComponentNuevaInstancia.Latitude = latitud;
+                anchorComponentNuevaInstancia.Longitude = longitud;
               //tocarPrefab.uid = uid;
             }
         }

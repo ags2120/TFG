@@ -5,16 +5,19 @@ using TMPro;
 using UnityEngine.UI;
 using Unity.VisualScripting;
 using UnityEngine.UIElements;
+using static UnityEngine.Rendering.DebugUI;
 
 public class slide_metros : MonoBehaviour
 {
     public TextMeshProUGUI metros,segundos;
     
-    public UnityEngine.UI.Slider slider, slideRefresco,sliderMinutos;
+    public UnityEngine.UI.Slider slider, slideRefresco;
+    public TMP_InputField input_mins, inputs_limit;
 
     private string slider1Key = "Slider1Value";
     private string slider2Key = "Slider2Value";
-    private string slider3Key = "Slider3Value";
+    private string input1Key = "Input1Value";
+    private string input2Key = "Input2Value";
 
 
     // Start is called before the first frame update
@@ -31,21 +34,40 @@ public class slide_metros : MonoBehaviour
             slideRefresco.value = PlayerPrefs.GetFloat(slider2Key);
         }
 
-        if (PlayerPrefs.HasKey(slider3Key))
+        if (PlayerPrefs.HasKey(input1Key))
         {
-            sliderMinutos.value = PlayerPrefs.GetFloat(slider3Key);
+            inputs_limit.text = PlayerPrefs.GetInt(input1Key).ToString();
+        }
+
+        if (PlayerPrefs.HasKey(input2Key))
+        {
+            input_mins.text = PlayerPrefs.GetInt(input2Key).ToString();
         }
 
         // Agregar listeners para guardar los valores cuando los sliders cambien
         slider.onValueChanged.AddListener(delegate { SaveSliderValue(slider1Key, slider.value); });
         slideRefresco.onValueChanged.AddListener(delegate { SaveSliderValue(slider2Key, slideRefresco.value); });
-        sliderMinutos.onValueChanged.AddListener(delegate { SaveSliderValue(slider3Key, sliderMinutos.value); });
+        inputs_limit.onValueChanged.AddListener(delegate { SaveInputValue(input1Key, inputs_limit.text); });
+        input_mins.onValueChanged.AddListener(delegate { SaveInputValue(input2Key, input_mins.text); });
     }
     void SaveSliderValue(string key, float value)
     {
         // Guardar el valor del slider en PlayerPrefs
         PlayerPrefs.SetFloat(key, value);
         PlayerPrefs.Save(); // Guardar los cambios
+    }
+    void SaveInputValue(string key, string input)
+    {
+        int value;
+        if (int.TryParse(input, out value))
+        {
+            // Aquí puedes guardar el valor donde necesites
+            PlayerPrefs.SetInt(key, value);
+            Debug.Log("Valor guardado: " + value);
+        }
+        
+
+
     }
     // Update is called once per frame
     public void changeText()

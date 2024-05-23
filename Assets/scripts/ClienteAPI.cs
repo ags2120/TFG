@@ -27,8 +27,9 @@ public class ClienteAPI : MonoBehaviour
     private GameObject sliderValue;
     private slide_metros valorMetros;
     private calcularFecha fecha;
+    private GestionarInputs inputsMenuPrincipal;
     public TextMeshProUGUI debug;
-    public Slider sliderMinutos;
+    //public Slider sliderMinutos;
     private MiGeolocalizacion geo;
     private GuardarFD fuentes;
     private string latitud, longitud;
@@ -44,6 +45,7 @@ public class ClienteAPI : MonoBehaviour
         fuentes = FindObjectOfType<GuardarFD>();
         gestionarPost = FindObjectOfType<GestionarDatosPost>();
         modelos = GetComponent<CrearModelosFD>();
+        inputsMenuPrincipal = FindObjectOfType<GestionarInputs>();
 
 
 
@@ -108,7 +110,7 @@ public class ClienteAPI : MonoBehaviour
         form.AddField("geo_position[lat]", latitud);
         form.AddField("geo_position[lon]", longitud);
         form.AddField("geo_position[radius_km]", valorfin);
-        form.AddField("limit", "100");
+        form.AddField("limit", inputsMenuPrincipal.limite);
         form.AddField("count", "false");
         /*
                 form.AddField("geo_position[lat]", "38.38739"); 38.57042 --> mi casa
@@ -183,34 +185,36 @@ public class ClienteAPI : MonoBehaviour
     {
         JObject jsonObject = JObject.Parse(json);
         JArray valuesArray = (JArray)jsonObject["result"]["values"];
-        geo.ShowDatosPost(fecha.hora, valuesArray.Count(), valorMetros.slider.value, sliderMinutos.value);
+        geo.ShowDatosPost(fecha.hora, valuesArray.Count(), valorMetros.slider.value, inputsMenuPrincipal.antiguedad);
     }
     IEnumerator SendRequestPOSTPC()
     {
 
         string valor = (valorMetros.slider.value / 1000).ToString();
         string valorfin = valor.Replace(",", ".");
-        //latitud = geo.getLatitud().Replace(",", ".");
-       // longitud = geo.getLongitud().Replace(",", ".");
-        //Debug.Log("El valor del Slide es:" + valor);
         WWWForm form = new WWWForm();
 
         form.AddField("time_start", fecha.time_start);
         form.AddField("time_end", fecha.time_end);
-        form.AddField("geo_position[lat]", "38.38739");
-        form.AddField("geo_position[lon]", "-0.51232");
+        form.AddField("geo_position[lat]", "38.57042");
+        form.AddField("geo_position[lon]", "-0.12439");
         form.AddField("geo_position[radius_km]", valorfin);
-        form.AddField("limit", "100");
+        form.AddField("limit", inputsMenuPrincipal.limite);
         form.AddField("count", "false");
+
+
         /*
                 form.AddField("geo_position[lat]", "38.38739"); 38.57042 --> mi casa
-                form.AddField("geo_position[lon]", "-0.51232"); -0.12439 -->
-        */
+                form.AddField("geo_position[lon]", "-0.51232"); -0.12439 -->*/
+                Debug.Log("time_start: " + fecha.time_start);
+                Debug.Log("time_end: " + fecha.time_end);
+                Debug.Log("limit: " + inputsMenuPrincipal.limite);
+        
         for (int i = 0; i < fuentes.ListaFuentesDatos.Count; i++)
         {
             if (fuentes.ListaFuentesDatos[i].activo == true)
             {
-                Debug.Log("entro " + i);
+                //Debug.Log("entro " + i);
                 string urlWithToken = apiUrlPost + fuentes.ListaFuentesDatos[i].token;
 
                 using (UnityWebRequest request = UnityWebRequest.Post(urlWithToken, form))
