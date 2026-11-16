@@ -84,13 +84,11 @@ El objetivo era trasladar ese paradigma de interacción al ámbito de la visuali
 
 (Añadir captura)
 
-### Visualización mediante Realidad Aumentada
+### Visualización mediante Realidad Aumentada e Información del Punto Geolocalizado
 
-(Añadir captura)
 
-### Información de un punto geolocalizado
 
-(Añadir captura)
+
 
 ---
 
