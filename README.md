@@ -76,17 +76,14 @@ El objetivo era trasladar ese paradigma de interacción al ámbito de la visuali
 
 ## 🖼️ Galería
 
-### Pantalla principal
-
-(Añadir captura)
 
 ### Fuentes de datos
 
-(Añadir captura)
+<img src="docs/screenshots/interfaces.png">
 
 ### Visualización mediante Realidad Aumentada e Información del Punto Geolocalizado
 
-
+<img src="docs/screenshots/modelos.png">
 
 
 
